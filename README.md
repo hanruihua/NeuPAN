@@ -1,4 +1,10 @@
+<div align="center">
+
 # NeuPAN: Direct Point Robot Navigation with End-to-End Model-based Learning
+
+<a href="https://arxiv.org/pdf/2403.06828.pdf"><img src='https://img.shields.io/badge/PDF-Arxiv-brightgreen' alt='PDF'></a>
+<a href="https://www.youtube.com/watch?v=qUNMQQRhNFo"><img src='https://img.shields.io/badge/Video-Youtube-blue' alt='youtube'></a>
+</div>
 
 | **[`PDF_Arxiv`](https://arxiv.org/pdf/2403.06828.pdf)** | **[`Video_Youtube`](https://youtu.be/SdSLWUmZZgQ)** |**[`Video_Bilibili`](https://www.bilibili.com/video/BV1Zx421y778/?vd_source=cf6ba629063343717a192a5be9fe8985)** | 
 
