@@ -12,7 +12,7 @@
 ![](./img/Architecture.png)
 
 ## Code
-Our paper is currently under revision. We will release the code upon acceptance, and our demos are available on the [project page](https://hanruihua.github.io/neupan_project/)
+Our paper is currently under revision. We will release the code upon acceptance, and our demos are available on the [project page](https://hanruihua.github.io/neupan_project/).
 
 ## Citation
 
