@@ -9,10 +9,13 @@
 
 </div>
 
+## News
+- **2025-02-04**: Our paper is accepted by T-RO 2025! The code is currently being organized and will be released soon. 
+
 ![](./img/Architecture.png)
 
-## Code
-Our paper is currently under revision. We will release the code upon acceptance, and our demos are available on the [project page](https://hanruihua.github.io/neupan_project/).
+<!-- ## Code
+Our paper is currently under revision. We will release the code upon acceptance, and our demos are available on the [project page](https://hanruihua.github.io/neupan_project/). -->
 
 ## Citation
 
