@@ -11,7 +11,7 @@
 
 ## News
 
-- **2025-03-25**: Code is released!
+- **2025-03-25**: Code released!
 - **2025-02-04**: Our paper is accepted by **T-RO 2025!**
 
 ## Introduction
