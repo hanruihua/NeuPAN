@@ -129,7 +129,7 @@ Since there are quite a lot of parameters setting for the Neupan planner, we pro
 
 ## DUNE Model Training for Your Own Robot
 
-To train a DUNE model for your own robot with a specific geometry, you can refer to the `example/dune_train` folder. Specifically, the geometry is defined in the `robot` section by the `vertices` (or `length` and `width` for rectangle) when the robot is in the initial state (coordinate origin). The training parameters can be adjusted in the `train` section. Generally, the training time is approximately 1-2 hours for a new robot geometry.
+To train a DUNE model for your own robot with a specific geometry, you can refer to the [example/dune_train](https://github.com/hanruihua/NeuPAN/tree/main/example/dune_train) folder. Specifically, the geometry is defined in the `robot` section by the `vertices` (or `length` and `width` for rectangle) when the robot is in the initial state (coordinate origin). The training parameters can be adjusted in the `train` section. Generally, the training time is approximately 1-2 hours for a new robot geometry.
 
 > [!NOTE]
 > The DUNE model only needs to be trained once for a new robot geometry. This trained model can be used in various environments without retraining.
