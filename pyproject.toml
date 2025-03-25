@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = 'neupan'
+version = "0.1.0"
+requires-python = ">= 3.10"
+authors = [{name = "Han Ruihua", email = "hanrh@connect.hku.hk"}]
+description = "NeuPAN"
+readme = "README.md"
+dependencies = [
+    'cvxpylayers',
+    'numpy',
+    'scipy',
+    'rich',
+    'dill',
+    'gctl==1.2',
+    'colorama',
+    'dill',
+    'scikit-learn',
+    'pyyaml',
+    "torch>=2.1.0",
+    "ecos"
+]
+
+[project.optional-dependencies]
+irsim = ['ir-sim>=2.4.0']
+all = ['ir-sim>=2.4.0']
+
+[tool.setuptools]
+py-modules = ['neupan']
+
+
+
