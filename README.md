@@ -16,7 +16,13 @@
 
 ## Introduction
 
-**NeuPAN** (Neural Proximal Alternating-minimization Network) is an end-to-end, real-time, map-free, and easy-to-deploy robot motion planner. By integrating learning-based and optimization-based techniques, NeuPAN directly maps obstacle points data to control actions in real-time by solving an end-to-end mathematical model with numerous point-level collision avoidance constraints. This eliminates middle modules design to avoid error propagation and achieves high accuracy, allowing the robot to navigate in cluttered and unknown environments efficiently and safely.
+**NeuPAN** (Neural Proximal Alternating-minimization Network) is an **end-to-end**, **real-time**, **map-free**, and **easy-to-deploy** MPC based robot motion planner. By integrating learning-based and optimization-based techniques, NeuPAN directly maps obstacle points data to control actions in real-time by solving an end-to-end mathematical model with numerous point-level collision avoidance constraints. This eliminates middle modules design to avoid error propagation and achieves high accuracy, allowing the robot to navigate in cluttered and unknown environments efficiently and safely.
+
+
+
+
+
+
 
 More real world demonstrations are available on the [project page](https://hanruihua.github.io/neupan_project/).
 
