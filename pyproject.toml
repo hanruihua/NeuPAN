@@ -17,7 +17,6 @@ dependencies = [
     'dill',
     'gctl==1.2',
     'colorama',
-    'dill',
     'scikit-learn',
     'pyyaml',
     "torch>=2.1.0",
