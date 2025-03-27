@@ -146,7 +146,7 @@ https://github.com/user-attachments/assets/db9edbfe-94d9-4a58-98ee-6b30e64dd3d9
 
 ## Citation
 
-If you find our work helpful in your research, you can star our repo and consider citing:
+If you find this code or paper is helpful, you can **star** this repository and cite our paper by the following **BibTeX** entry:
 
 ```bibtex
 
