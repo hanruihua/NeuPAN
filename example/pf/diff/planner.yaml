@@ -9,8 +9,8 @@ collision_threshold: 0.1
 # robot
 robot:
   kinematics: 'diff'
-  max_speed: [8, 3.14]
-  max_acce: [8, 8]
+  max_speed: [8, 3]
+  max_acce: [8, 3]
   length: 1.6
   width: 4.6
 
