@@ -150,12 +150,15 @@ If you find our work helpful in your research, you can star our repo and conside
 
 ```bibtex
 
-@article{han2024neupan,
-  title={NeuPAN: Direct Point Robot Navigation with End-to-End Model-based Learning},
-  author={Han, Ruihua and Wang, Shuai and Wang, Shuaijun and Zhang, Zeqing and Chen, Jianjun and Lin, Shijie and Li, Chengyang and Xu, Chengzhong and Eldar, Yonina C and Hao, Qi and Pan, Jia},
-  journal={arXiv preprint arXiv:2403.06828},
-  year={2025} 
-}
+@ARTICLE{10938329,
+  author={Han, Ruihua and Wang, Shuai and Wang, Shuaijun and Zhang, Zeqing and Chen, Jianjun and Lin, Shijie and Li, Chengyang and Xu, Chengzhong and Eldar, Yonina C. and Hao, Qi and Pan, Jia},
+  journal={IEEE Transactions on Robotics}, 
+  title={NeuPAN: Direct Point Robot Navigation With End-to-End Model-Based Learning}, 
+  year={2025},
+  volume={},
+  number={},
+  pages={1-20},
+  doi={10.1109/TRO.2025.3554252}}
 ```
 
 
