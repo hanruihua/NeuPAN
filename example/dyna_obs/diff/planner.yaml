@@ -38,8 +38,8 @@ pan:
 
 # adjust parameters
 adjust:
-  q_s: 1.0
-  p_u: 1.0
+  q_s: 0.3
+  p_u: 0.3
   eta: 15.0
   d_max: 1.0
   d_min: 0.1
