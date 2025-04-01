@@ -101,7 +101,7 @@ Since there are quite a lot of parameters setting for the Neupan planner, we pro
 | ------------------------ | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
 | `waypoints`              | `list[list[float]]` / None                 | The waypoints of the path. `[[x1, y1], [x2, y2], ...]`                                                       |
 | `loop`                   | `bool` / False                             | When robots arrive at the last waypoint, whether the path will be reset to the beginning.                    |
-| `curve_style`            | `str` / dubins                           | The style of the curve. `dubins` for Dubins' path, `reeds` for Reeds-Shepp's path. `line` for straight line. |
+| `curve_style`            | `str` / dubins                             | The style of the curve. `dubins` for Dubins' path, `reeds` for Reeds-Shepp's path. `line` for straight line. |
 | `min_radius`             | `float` / default_turn_radius of the robot | The minimum radius of the curve.                                                                             |
 | `interval`               | `float` / ref_speed * step_time            | The interval of the points in the path.                                                                      |
 | `arrive_threshold`       | `float` / 0.1                              | The threshold to judge whether the robot arrives at the target.                                              |
@@ -123,20 +123,39 @@ Since there are quite a lot of parameters setting for the Neupan planner, we pro
 
 *You may adjust the parameters in the `adjust` section to get better performance for your specific workspace.*
 
-| Parameter Name | Type / Default Value | Description                                                                                         |
-| -------------- | -------------------- | --------------------------------------------------------------------------------------------------- |
-| `q_s`          | `float` / 1.0        | The weight for the state cost. Large value encourages the robot to follow the initial path closely. |
-| `p_u`          | `float` / 1.0        | The weight for the speed cost. Large value encourages the robot to follow the reference speed.      |
-| `eta`          | `float` / 10.0       | Slack gain for L1 regularization.                                                                   |
-| `d_max`        | `float` / 1.0        | The maximum safety distance.                                                                        |
-| `d_min`        | `float` / 0.1        | The minimum safety distance.                                                                        |
-| `ro_obs`       | `float` / 400        | The penalty parameters for collision avoidance. Smaller value may require more iterations to converge. |
-| `bk`           | `float` / 0.1        | The associated proximal coefficient for convergence.                                                 |
+| Parameter Name | Type / Default Value | Description                                                                                                                                                                                  |
+| -------------- | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `q_s`          | `float` / 1.0        | The weight for the state cost. Large value encourages the robot to follow the initial path closely.                                                                                          |
+| `p_u`          | `float` / 1.0        | The weight for the speed cost. Large value encourages the robot to follow the reference speed.                                                                                               |
+| `eta`          | `float` / 10.0       | Slack gain for L1 regularization.                                                                                                                                                            |
+| `d_max`        | `float` / 1.0        | The maximum safety distance.                                                                                                                                                                 |
+| `d_min`        | `float` / 0.1        | The minimum safety distance.                                                                                                                                                                 |
+| `ro_obs`       | `float` / 400        | The penalty parameters for collision avoidance. Smaller value may require more iterations to converge.                                                                                       |
+| `bk`           | `float` / 0.1        | The associated proximal coefficient for convergence.                                                                                                                                         |
 | `solver`       | `str` / "ECOS"       | The optimization solver method for the NRMP layer. See [cvxpylayers](https://github.com/cvxgrp/cvxpylayers) and [cvxpy](https://www.cvxpy.org/tutorial/solvers/index.html) for more details. |
 
 ## DUNE Model Training for Your Own Robot
 
 To train a DUNE model for your own robot with a specific geometry, you can refer to the [example/dune_train](https://github.com/hanruihua/NeuPAN/tree/main/example/dune_train) folder. Specifically, the geometry is defined in the `robot` section by the `vertices` (or `length` and `width` for rectangle) when the robot is in the initial state (coordinate origin). The training parameters can be adjusted in the `train` section. Generally, the training time is approximately 1-2 hours for a new robot geometry.
+
+You can use the `train` section in YAML file to set the training parameters for the DUNE model. The parameters are shown below:
+
+`train` section:
+
+| Parameter Name | Type / Default Value               | Description                                                               |
+| -------------- | ---------------------------------- | ------------------------------------------------------------------------- |
+| `direct_train` | `bool` / True                      | Whether to directly train the DUNE model without asking for confirmation. |
+| `model_name`   | `str` / robot_name                 | The name of the model for file saving.                                           |
+| `data_size`    | `int` / 100000                     | The size of the generated training data.                                            |
+| `data_range`   | `list[float]` / [-25, -25, 25, 25] | The `[x_min, y_min, x_max, y_max]` range of the generated training data (meter). If your robot will consider the obstacle points outside this range, you must set a larger range. |
+| `batch_size`   | `int` / 256                        | The batch size for training.                                              |
+| `epoch`        | `int` / 5000                       | The number of epochs for training.                                        |
+| `valid_freq`   | `int` / 100                        | The frequency of the validation.                                          |
+| `save_freq`    | `int` / 500                        | The frequency of saving the model.                                        |
+| `lr`           | `float` / 5e-5                     | The learning rate for training.                                           |
+| `lr_decay`     | `float` / 0.5                      | The decay rate for the learning rate.                                     |
+| `decay_freq`   | `int` / 1500                       | The frequency of the learning rate decay.                                 |
+| `save_loss`    | `bool` / False                     | Whether to save the loss to file.                                         |
 
 > [!NOTE]
 > The DUNE model only needs to be trained once for a new robot geometry. This trained model can be used in various environments without retraining.
