@@ -82,7 +82,7 @@ Since there are quite a lot of parameters setting for the Neupan planner, we pro
 | `adjust`              | `dict` / dict()      | The parameters for the adjust weights. See 'adjust' section.                         |
 | `train`               | `dict` / dict()      | The parameters for the DUNE training. See 'train' section.                           |
 
-`robot` section:
+**`robot` section**:
 
 | Parameter Name | Type / Default Value                       | Description                                                                                                    |
 | -------------- | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------- |
@@ -95,7 +95,7 @@ Since there are quite a lot of parameters setting for the Neupan planner, we pro
 | `width`        | `float` / None                             | The width of the robot.  If the `vertices` is not given, this parameter is required for rectangle robot simply |
 | `name`         | `str` / kinematics + "_robot" + '_default' | The name of the robot. Used for saving the DUNEmodel.                                                          |
 
-`ipath` section:
+**`ipath` section**:
 
 | Parameter Name           | Type / Default Value                       | Description                                                                                                  |
 | ------------------------ | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
@@ -109,7 +109,7 @@ Since there are quite a lot of parameters setting for the Neupan planner, we pro
 | `ind_range`              | `int` / 10                                 | The index range of the waypoints, used for finding the next reference point on the path.                     |
 | `arrive_index_threshold` | `int` / 1                                  | The threshold of the index to judge whether the robot arrives at the target.                                 |
 
-`pan` section:
+**`pan` section**:
 
 | Parameter Name    | Type / Default Value | Description                                                                                          |
 | ----------------- | -------------------- | ---------------------------------------------------------------------------------------------------- |
@@ -119,7 +119,7 @@ Since there are quite a lot of parameters setting for the Neupan planner, we pro
 | `dune_checkpoint` | `str` / None         | The checkpoint model path of the DUNE model.                                                         |
 | `iter_threshold`  | `float` / 0.1        | The threshold to judge whether the iteration converges.                                              |
 
-`adjust` section:
+**`adjust` section**:
 
 *You may adjust the parameters in the `adjust` section to get better performance for your specific workspace.*
 
@@ -140,7 +140,7 @@ To train a DUNE model for your own robot with a specific geometry, you can refer
 
 You can use the `train` section in YAML file to set the training parameters for the DUNE model. The parameters are shown below:
 
-`train` section:
+**`train`** section:
 
 | Parameter Name | Type / Default Value               | Description                                                               |
 | -------------- | ---------------------------------- | ------------------------------------------------------------------------- |
