@@ -61,7 +61,7 @@ Some demonstrations run by `run_exp.py` are shown below:
 
 
 > [!NOTE]
-> *Since the optimization solver cvxpy is not supported on GPU, we recommend using the CPU device to run the NeuPAN algorithm. Thus, the hardware platform with more powerful CPU is recommended to achieve higher frequency and better performance. However, you can still use the GPU device to train the DUNE model for acceleration.*
+> *Since the optimization solver cvxpy is not supported on GPU, we recommend using the CPU device to run the NeuPAN algorithm. Thus, the hardware platform with more powerful CPU (e.g. Intel i7) is recommended to achieve higher frequency and better performance. However, you can still use the GPU device to train the DUNE model for acceleration.*
 
 ## YAML Parameters
 
