@@ -7,6 +7,7 @@
 <a href="https://youtu.be/SdSLWUmZZgQ"><img src='https://img.shields.io/badge/Video-Youtube-blue' alt='youtube'></a>
 <a href="https://www.bilibili.com/video/BV1Zx421y778/?vd_source=cf6ba629063343717a192a5be9fe8985"><img src='https://img.shields.io/badge/Video-Bilibili-blue' alt='youtube'></a>
 <a href="https://hanruihua.github.io/neupan_project/"><img src='https://img.shields.io/badge/Website-NeuPAN-orange' alt='website'></a>
+<a href="https://github.com/hanruihua/neupan_ros"><img src='https://img.shields.io/badge/Wrapper-ROS-red' alt='ROS'></a>
 
 </div>
 
