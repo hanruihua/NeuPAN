@@ -147,7 +147,7 @@ You can use the `train` section in YAML file to set the training parameters for 
 | `direct_train` | `bool` / True                      | Whether to directly train the DUNE model without asking for confirmation. |
 | `model_name`   | `str` / robot_name                 | The name of the model for file saving.                                           |
 | `data_size`    | `int` / 100000                     | The size of the generated training data.                                            |
-| `data_range`   | `list[float]` / [-25, -25, 25, 25] | The `[x_min, y_min, x_max, y_max]` range of the generated training data (meter). If your robot will consider the obstacle points outside this range, you must set a larger range. |
+| `data_range`   | `list[float]` / [-25, -25, 25, 25] | The `[x_min, y_min, x_max, y_max]` range of the generated training data (meter). If your robot will consider the obstacle points outside this range, you must set a larger value. |
 | `batch_size`   | `int` / 256                        | The batch size for training.                                              |
 | `epoch`        | `int` / 5000                       | The number of epochs for training.                                        |
 | `valid_freq`   | `int` / 100                        | The frequency of the validation.                                          |
