@@ -275,6 +275,20 @@ class neupan(torch.nn.Module):
 
         self.ipath.update_initial_path_from_goal(start, goal)
 
+    def update_adjust_parameters(self, **kwargs):
+
+        """
+        update the adjust parameters value: q_s, p_u, eta, d_max, d_min
+
+        Args:
+            q_s: float, the weight of the state cost
+            p_u: float, the weight of the speed cost
+            eta: float, the weight of the collision avoidance cost
+            d_max: float, the maximum distance to the obstacle
+            d_min: float, the minimum distance to the obstacle
+        """
+        
+        self.pan.nrmp_layer.update_adjust_parameters_value(**kwargs)
 
     @property
     def min_distance(self):
