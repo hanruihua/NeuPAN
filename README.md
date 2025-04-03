@@ -136,7 +136,7 @@ Since there are quite a lot of parameters setting for the Neupan planner, we pro
 
 ## DUNE Model Training for Your Own Robot
 
-To train a DUNE model for your own robot with a specific geometry, you can refer to the [example/dune_train](https://github.com/hanruihua/NeuPAN/tree/main/example/dune_train) folder. Specifically, the geometry is defined in the `robot` section by the `vertices` (or `length` and `width` for rectangle) when the robot is in the initial state (coordinate origin). The training parameters can be adjusted in the `train` section. Generally, the training time is approximately 1-2 hours for a new robot geometry.
+To train a DUNE model for your own robot with a specific convex geometry, you can refer to the [example/dune_train](https://github.com/hanruihua/NeuPAN/tree/main/example/dune_train) folder. Specifically, the convex geometry is defined in the `robot` section by the `vertices` (or `length` and `width` for rectangle) when the robot is in the initial state (coordinate origin). The training parameters can be adjusted in the `train` section. Generally, the training time is approximately 1-2 hours for a new robot geometry.
 
 You can use the `train` section in YAML file to set the training parameters for the DUNE model. The parameters are shown below:
 
@@ -165,6 +165,23 @@ You can use the `train` section in YAML file to set the training parameters for 
 We provide a ROS wrapper for NeuPAN. You can refer to the [neupan_ros](https://github.com/hanruihua/neupan_ros) repo to see the details. The Gazebo demonstrations are shown below:
 
 https://github.com/user-attachments/assets/db9edbfe-94d9-4a58-98ee-6b30e64dd3d9
+
+## Notes for Real World Deployment
+
+- You can easily deploy the NeuPAN algorithm on a real robot platform using [neupan_ros](https://github.com/hanruihua/neupan_ros). Currently, NeuPAN supports the kinematics of differential drive robots and Ackermann robots (see the `robot` section in the YAML file). For robots with other kinematics, you can modify the constraints in the NRMP layer to suit your needs.
+
+- The DUNE model trained in simulation can be directly applied in the real world without retraining.
+
+- NeuPAN solves the mathematical optimization problem in real time. Thus, its performance is influenced by three main factors: 1) the computing power of the CPU-based hardware platform; 2) the adjustment of the parameters in the `adjust` section; and 3) the naive initial path provided by the user.
+
+- We recommend using a hardware platform with a powerful CPU to enable NeuPAN to run at a control frequency higher than 10 Hz. You can run the provided examples to observe the forward time cost of NeuPAN. To reduce this cost, adjust parameters such as `receding`, `nrmp_max_num`, `dune_max_num`, `iter_num`, and `iter_threshold` to make NeuPAN run faster. In our experience, an Intel i7 CPU is capable of running NeuPAN at a control frequency higher than 15 Hz.
+
+- The `adjust` parameters are used to tune the weights of the state cost, speed cost, and collision avoidance cost. These parameters influence NeuPAN's behavior, making it either more aggressive or more conservative. You can adjust or train these parameters to achieve better performance for your specific workspace. Additionally, these parameters can be fine-tuned in real time for different scenarios.
+
+- The naive initial path can be generated from the provided waypoints or derived from a global planner like A* without accounting for obstacles. This path serves as a simple, rough initial guess for NeuPAN. We offer functionality to generate the initial path from given waypoints as either:
+  - direct lines for differential drive robots,
+  - Dubins' paths for forward Ackermann vehicles, or
+  - Reeds-Shepp paths for forward and backward Ackermann vehicles.
 
 ## Citation
 
