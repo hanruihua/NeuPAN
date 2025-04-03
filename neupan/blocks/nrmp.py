@@ -107,6 +107,8 @@ class NRMP(torch.nn.Module):
     def generate_parameter_value(
         self, nom_s, nom_u, ref_s, ref_us, mu_list, lam_list, point_list
     ):
+        
+        adjust_value_list = self.generate_adjust_parameter_value()
 
         state_value_list = self.robot.generate_state_parameter_value(
             nom_s, nom_u, self.q_s * ref_s, self.p_u * ref_us
@@ -116,12 +118,29 @@ class NRMP(torch.nn.Module):
             mu_list, lam_list, point_list
         )
 
-        adjust_value_list = self.generate_adjust_parameter_value()
-
         return state_value_list + coefficient_value_list + adjust_value_list
 
     def generate_adjust_parameter_value(self):
         return self.adjust_parameters
+
+    def update_adjust_parameters_value(self, **kwargs):
+
+        '''
+        update the adjust parameters value: q_s, p_u, eta, d_max, d_min
+        '''
+
+        self.q_s = value_to_tensor(kwargs.get("q_s", self.q_s), True)
+        self.p_u = value_to_tensor(kwargs.get("p_u", self.p_u), True)
+        self.eta = value_to_tensor(kwargs.get("eta", self.eta), True)
+        self.d_max = value_to_tensor(kwargs.get("d_max", self.d_max), True)
+        self.d_min = value_to_tensor(kwargs.get("d_min", self.d_min), True)
+
+        self.adjust_parameters = (
+            [self.q_s, self.p_u]
+            if self.no_obs
+            else [self.q_s, self.p_u, self.eta, self.d_max, self.d_min]
+        )
+
 
     def generate_coefficient_parameter_value(self, mu_list, lam_list, point_list):
         """

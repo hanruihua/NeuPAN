@@ -18,6 +18,7 @@ def main(
     neupan_planner = neupan.init_from_yaml(planner_file)
     
     # env.show()
+    # neupan_planner.update_adjust_parameters(q_s=0.5, p_u=1.0, eta=10.0, d_max=1.0, d_min=0.1)
 
     for i in range(max_steps):
 
