@@ -21,7 +21,6 @@ dependencies = [
     'pyyaml',
     "torch>=2.1.0",
     "ecos",
-    'ir-sim>=2.4.0',
 ]
 
 [project.optional-dependencies]
