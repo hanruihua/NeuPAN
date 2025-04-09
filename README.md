@@ -25,6 +25,8 @@ https://github.com/user-attachments/assets/7e53b88c-aba9-4eea-8708-9bbf0d0305fc
 
 https://github.com/user-attachments/assets/e37c5775-6e80-4cb5-9320-a04b54792e0e
 
+https://github.com/user-attachments/assets/71eef683-a996-488f-b51b-89e149d0cc6e
+
 More real world demonstrations are available on the [project page](https://hanruihua.github.io/neupan_project/).
 
 ![](./img/Architecture.png)
