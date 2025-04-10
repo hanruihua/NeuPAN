@@ -160,6 +160,12 @@ class neupan(torch.nn.Module):
         input:
             state: [x, y, theta]
             scan: {}
+                ranges: list[float], the range of the scan
+                angle_min: float, the minimum angle of the scan
+                angle_max: float, the maximum angle of the scan
+                range_max: float, the maximum range of the scan
+                range_min: float, the minimum range of the scan
+
             scan_offset: [x, y, theta], the relative position of the sensor to the robot state coordinate
 
         return point cloud: (2, n)
@@ -173,7 +179,7 @@ class neupan(torch.nn.Module):
             scan_range = ranges[i]
             angle = angles[i]
 
-            if scan_range < (scan["range_max"] - 0.02):
+            if scan_range < (scan["range_max"] - 0.02) and scan_range > scan["range_min"]:
                 if angle > angle_range[0] and angle < angle_range[1]:
                     point = np.array(
                         [[scan_range * cos(angle)], [scan_range * sin(angle)]]
@@ -204,6 +210,13 @@ class neupan(torch.nn.Module):
         input:
             state: [x, y, theta]
             scan: {}
+                ranges: list[float], the ranges of the scan
+                angle_min: float, the minimum angle of the scan
+                angle_max: float, the maximum angle of the scan
+                range_max: float, the maximum range of the scan
+                range_min: float, the minimum range of the scan
+                velocity: list[float], the velocity of the scan
+
             scan_offset: [x, y, theta], the relative position of the sensor to the robot state coordinate
 
         return point cloud: (2, n)
@@ -220,7 +233,7 @@ class neupan(torch.nn.Module):
             scan_range = ranges[i]
             angle = angles[i]
 
-            if scan_range < (scan["range_max"] - 0.02):
+            if scan_range < (scan["range_max"] - 0.02) and scan_range >= scan["range_min"]:
                 if angle > angle_range[0] and angle < angle_range[1]:
                     point = np.array(
                         [[scan_range * cos(angle)], [scan_range * sin(angle)]]
