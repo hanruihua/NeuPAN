@@ -88,7 +88,7 @@ Since there are quite a lot of parameters setting for the Neupan planner, we pro
 
 | Parameter Name | Type / Default Value                       | Description                                                                                                    |
 | -------------- | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------- |
-| `kinematics`   | `str` / "diff"                             | The kinematics of the robot. "diff" for differential drive, "acker" for Ackermann drive.                       |
+| `kinematics`   | `str` / "diff"                             | The kinematics of the robot. `diff` for differential drive, `acker` for Ackermann drive. For `diff` robot, the output action is linear and angular speed. For `acker` robot, the output action is linear speed and steering angle.                      |
 | `vertices`     | `list[list[float]]` / None                 | The vertices of the robot in the initial state. `[[x1, y1], [x2, y2], ...]`                                    |
 | `max_speed`    | `list[float]` / [inf, inf]                 | The maximum speed of the robot.                                                                                |
 | `max_acce`     | `list[float]` / [inf, inf]                 | The maximum acceleration of the robot.                                                                         |
