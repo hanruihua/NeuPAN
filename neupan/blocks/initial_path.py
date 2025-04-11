@@ -67,7 +67,7 @@ class InitialPath:
         assert self.cur_point.shape[0] >= 4
         gear_list = [self.cur_point[-1, 0]] * self.T
 
-        ref_speed_forward = self.ref_speed * self.dt
+        ref_speed_forward = ref_speed * self.dt
 
         for t in range(self.T):
             pre_state = self.motion_predict_model(

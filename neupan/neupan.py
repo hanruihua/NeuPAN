@@ -278,6 +278,16 @@ class neupan(torch.nn.Module):
         """
         self.ipath.init_check(state)
     
+    def set_reference_speed(self, speed: float):
+
+        """
+        Args:
+            speed: float, the reference speed of the robot
+        """
+
+        self.ipath.ref_speed = speed
+        self.ref_speed = speed
+    
     def update_initial_path_from_goal(self, start, goal):
 
         """
