@@ -335,7 +335,33 @@ class neupan(torch.nn.Module):
     
     @property
     def waypoints(self):
+
+        '''
+        Waypoints for generating the initial path
+        '''
+
         return self.ipath.waypoints
+    
+    @property
+    def opt_trajectory(self):
+
+        '''
+        MPC receding horizon trajectory under the velocity sequence
+        return a list of state sequence, each state is a 3x1 vector
+        '''
+
+        return self.info["opt_state_list"]
+    
+    @property
+    def ref_trajectory(self):
+
+        '''
+        Reference trajectory on the initial path
+        return a list of state sequence, each state is a 3x1 vector
+        '''
+
+        return self.info["ref_state_list"]
+
     
 
     

@@ -94,8 +94,8 @@ def train_one_epoch(max_steps=500, render=True):
         loss.backward()
         opt.step()
 
-        env.draw_trajectory(info["opt_state_list"], "r", refresh=True)
-        env.draw_trajectory(info["ref_state_list"], "b", refresh=True)
+        env.draw_trajectory(neupan_planner.opt_trajectory, "r", refresh=True)
+        env.draw_trajectory(neupan_planner.ref_trajectory, "b", refresh=True)
         if i == 0:
             env.draw_trajectory(neupan_planner.initial_path, traj_type="-k")
 
