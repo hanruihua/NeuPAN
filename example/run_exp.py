@@ -19,6 +19,7 @@ def main(
     
     # neupan_planner.update_adjust_parameters(q_s=0.5, p_u=1.0, eta=10.0, d_max=1.0, d_min=0.1)
     # neupan_planner.set_reference_speed(5)
+    # neupan_planner.update_initial_path_from_waypoints([np.array([0, 0, 0]).reshape(3, 1), np.array([100, 100, 0]).reshape(3, 1)])
 
     for i in range(max_steps):
 

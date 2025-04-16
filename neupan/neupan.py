@@ -298,6 +298,17 @@ class neupan(torch.nn.Module):
 
         self.ipath.update_initial_path_from_goal(start, goal)
 
+
+    def update_initial_path_from_waypoints(self, waypoints):
+
+        """
+        Args:
+            waypoints: list of [x, y, theta] or 3x1 vector
+        """
+
+        self.ipath.set_ipath_with_waypoints(waypoints)
+
+
     def update_adjust_parameters(self, **kwargs):
 
         """

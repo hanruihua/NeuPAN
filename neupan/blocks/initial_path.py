@@ -311,6 +311,7 @@ class InitialPath:
         # self.path_index = 0
         self.curve_index = 0
         self.point_index = 0
+        self.waypoints = waypoints
 
     def set_ipath_with_waypoints(self, waypoints):
         self.initial_path = self.cg.generate_curve(
@@ -321,6 +322,7 @@ class InitialPath:
         # self.path_index = 0
         self.curve_index = 0
         self.point_index = 0
+        self.waypoints = waypoints
 
     def motion_predict_model(self, robot_state, vel, wheel_base, sample_time):
 
