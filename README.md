@@ -190,15 +190,14 @@ https://github.com/user-attachments/assets/db9edbfe-94d9-4a58-98ee-6b30e64dd3d9
 If you find this code or paper is helpful, you can **star** this repository and cite our paper by the following **BibTeX** entry:
 
 ```bibtex
-
 @ARTICLE{10938329,
   author={Han, Ruihua and Wang, Shuai and Wang, Shuaijun and Zhang, Zeqing and Chen, Jianjun and Lin, Shijie and Li, Chengyang and Xu, Chengzhong and Eldar, Yonina C. and Hao, Qi and Pan, Jia},
   journal={IEEE Transactions on Robotics}, 
   title={NeuPAN: Direct Point Robot Navigation With End-to-End Model-Based Learning}, 
   year={2025},
-  volume={},
+  volume={41},
   number={},
-  pages={1-20},
+  pages={2804-2824},
   doi={10.1109/TRO.2025.3554252}}
 ```
 
