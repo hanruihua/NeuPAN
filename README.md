@@ -13,7 +13,7 @@
 
 ## News
 
-- **2025-03-26**: Published on [IEEE Transactions on Robotics](https://ieeexplore.ieee.org/abstract/document/10938329).
+- **2025-03-26**: Available on [IEEE Transactions on Robotics](https://ieeexplore.ieee.org/abstract/document/10938329).
 - **2025-03-25**: Code released!
 - **2025-02-04**: Our paper is accepted by **T-RO 2025!**
 
