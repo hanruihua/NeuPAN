@@ -64,7 +64,7 @@ Some demonstrations run by `run_exp.py` are shown below:
 
 
 > [!NOTE]
-> *The pretrained DUNE model provided in these examples are trained under the size of the robot. If you adjust the size of the robot, you must retrain the DUNE model by referring to the [DUNE Model Training for Your Own Robot](#dune-model-training-for-your-own-robot) section.*
+> *The pretrained DUNE model provided in these examples are trained under the size of the robot. If you adjust the size of the robot, you must retrain the DUNE model by referring to the [DUNE Training]([#dune-model-training-for-your-own-robot](https://github.com/hanruihua/NeuPAN/tree/main/example/dune_train)) example.*
 
 > [!NOTE]
 > *Since the optimization solver cvxpy is not supported on GPU, we recommend using the CPU device to run the NeuPAN algorithm. Thus, the hardware platform with more powerful CPU (e.g. Intel i7) is recommended to achieve higher frequency and better performance. However, you can still use the GPU device to train the DUNE model for acceleration.*
