@@ -64,6 +64,9 @@ Some demonstrations run by `run_exp.py` are shown below:
 
 
 > [!NOTE]
+> *The pretrained DUNE model provided in these examples are trained under the size of the robot. If you adjust the size of the robot, you must retrain the DUNE model by referring to the [DUNE Model Training for Your Own Robot](#dune-model-training-for-your-own-robot) section.*
+
+> [!NOTE]
 > *Since the optimization solver cvxpy is not supported on GPU, we recommend using the CPU device to run the NeuPAN algorithm. Thus, the hardware platform with more powerful CPU (e.g. Intel i7) is recommended to achieve higher frequency and better performance. However, you can still use the GPU device to train the DUNE model for acceleration.*
 
 ## YAML Parameters
@@ -136,7 +139,7 @@ Since there are quite a lot of parameters setting for the Neupan planner, we pro
 | `bk`           | `float` / 0.1        | The associated proximal coefficient for convergence.                                                                                                                                         |
 | `solver`       | `str` / "ECOS"       | The optimization solver method for the NRMP layer. See [cvxpylayers](https://github.com/cvxgrp/cvxpylayers) and [cvxpy](https://www.cvxpy.org/tutorial/solvers/index.html) for more details. |
 
-## DUNE Model Training for Your Own Robot
+## DUNE Model Training for Your Own Robot with a Specific Convex Geometry
 
 To train a DUNE model for your own robot with a specific convex geometry, you can refer to the [example/dune_train](https://github.com/hanruihua/NeuPAN/tree/main/example/dune_train) folder. Specifically, the convex geometry is defined in the `robot` section by the `vertices` (or `length` and `width` for rectangle) when the robot is in the initial state (coordinate origin). The training parameters can be adjusted in the `train` section. Generally, the training time is approximately 1-2 hours for a new robot geometry.
 
