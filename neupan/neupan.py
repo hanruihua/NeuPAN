@@ -269,6 +269,14 @@ class neupan(torch.nn.Module):
         self.info["arrive"] = False
         self.cur_vel_array = np.zeros_like(self.cur_vel_array)
 
+    def set_initial_path(self, path):
+
+        '''
+        set the initial path from the given path
+        path: list of [x, y, theta, gear] 4x1 vector, gear is -1 (back gear) or 1 (forward gear)
+        '''
+
+        self.ipath.set_initial_path(path)
 
     def set_initial_path_from_state(self, state):
         """
