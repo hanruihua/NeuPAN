@@ -56,7 +56,7 @@ class DUNE(torch.nn.Module):
 
         
     @time_it('- dune forward')
-    def forward(self, point_flow: list[torch.Tensor], R_list: list[torch.Tensor], obs_points_list: list[torch.Tensor]=[]) -> tuple[list[torch.Tensor], list[torch.Tensor], list[torch.Tensor]]:
+    def forward(self, point_flow, R_list, obs_points_list=[]):
 
         '''
         map point flow to the latent distance features: lam, mu

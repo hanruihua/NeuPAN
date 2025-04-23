@@ -174,10 +174,10 @@ class neupan(torch.nn.Module):
         self,
         state: np.ndarray,
         scan: dict,
-        scan_offset: list[float] = [0, 0, 0],
-        angle_range: list[float] = [-np.pi, np.pi],
+        scan_offset = [0, 0, 0],
+        angle_range = [-np.pi, np.pi],
         down_sample: int = 1,
-    ) -> np.ndarray | None:
+    ):
         
         """
         input:

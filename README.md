@@ -52,7 +52,7 @@ https://github.com/user-attachments/assets/fb3f2992-da00-4730-872f-8f3bb8b29163
 ![](./img/Architecture.png)
 
 ## Prerequisite
-- Python >= 3.10
+- Python >= 3.8
 
 ## Installation
 
