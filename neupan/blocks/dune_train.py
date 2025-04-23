@@ -142,7 +142,7 @@ class DUNETrain:
     def start(
         self,
         data_size: int = 100000,
-        data_range: list[int] = [-25, -25, 25, 25],
+        data_range = [-25, -25, 25, 25],
         batch_size: int = 256,
         epoch: int = 5000,
         valid_freq: int = 100,
