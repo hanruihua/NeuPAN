@@ -133,7 +133,7 @@ def distance(point1: np.ndarray, point2: np.ndarray) -> float:
     return sqrt((point1[0, 0] - point2[0, 0]) ** 2 + (point1[1, 0] - point2[1, 0]) ** 2)
 
 
-def get_transform(state: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+def get_transform(state: np.ndarray):
     """
     Get rotation and translation matrices from state.
 
@@ -158,7 +158,7 @@ def get_transform(state: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
 
 
 
-def gen_inequal_from_vertex(vertex: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+def gen_inequal_from_vertex(vertex):
     """
     Generate inequality constraints for a convex polygon.
 
