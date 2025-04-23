@@ -35,7 +35,7 @@ More real world demonstrations are available on the [project page](https://hanru
 
 
 ## Prerequisite
-- Python >= 3.10
+- Python >= 3.8
 
 ## Installation
 
