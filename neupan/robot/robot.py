@@ -41,9 +41,9 @@ class robot:
         self.max_acce = np.c_[max_acce] if isinstance(max_acce, list) else max_acce
 
         if kinematics == 'acker':
-            if self.max_speed[1] >= 1:
-                print(f"max steering angle is {self.max_speed[1]} rad, which is larger than 1 rad, so it is limited to 1 rad")
-                self.max_speed[1] = 1
+            if self.max_speed[1] >= 1.57:
+                print(f"Warning: max steering angle of acker robot is {self.max_speed[1]} rad, which is larger than 1.57 rad, so it is limited to 1.57 rad")
+                self.max_speed[1] = 1.57
 
         self.speed_bound = self.max_speed
         self.acce_bound = self.max_acce * self.dt
