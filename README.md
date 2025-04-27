@@ -188,6 +188,11 @@ https://github.com/user-attachments/assets/db9edbfe-94d9-4a58-98ee-6b30e64dd3d9
   - Dubins' paths for forward Ackermann vehicles, or
   - Reeds-Shepp paths for forward and backward Ackermann vehicles.
 
+## License
+
+Copyright 2025 Ruihua Han
+This project is licensed under the [GNU General Public License v3.0](LICENSE).
+
 ## Citation
 
 If you find this code or paper is helpful, you can **star** this repository and cite our paper by the following **BibTeX** entry:

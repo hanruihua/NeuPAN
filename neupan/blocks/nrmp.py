@@ -1,7 +1,14 @@
 """
 NRMP (Neural Regularized Motion Planner) is the core class of the PAN class. It solves the optimization problem integrating the neural latent distance space to generate the optimal control sequence.
 
-Developer: Han Ruihua <hanrh@connect.hku.hk>
+Developed by Ruihua Han
+Copyright (c) 2025 Ruihua Han <hanrh@connect.hku.hk>
+
+NeuPan is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+NeuPan is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
 """
 
 import torch
