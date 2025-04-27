@@ -13,7 +13,7 @@
 
 ## News
 
-- **2025-04-24**: We provide the python 3.8 compatible NeuPAN version available on py38 branch.
+- **2025-04-24**: We provide the python 3.8 compatible NeuPAN version available on [py38](https://github.com/hanruihua/NeuPAN/tree/py38) branch.
 - **2025-03-26**: Available on [IEEE Transactions on Robotics](https://ieeexplore.ieee.org/abstract/document/10938329).
 - **2025-03-25**: Code released!
 - **2025-02-04**: Our paper is accepted by **T-RO 2025!**
