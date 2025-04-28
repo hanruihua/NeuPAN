@@ -306,8 +306,10 @@ class NRMP(torch.nn.Module):
 
         constraints = []
 
-        constraints += [cp.max(self.indep_dis) <= self.para_d_max]
-        constraints += [cp.min(self.indep_dis) >= self.para_d_min]
+        constraints += [self.indep_dis >= self.para_d_min]
+        constraints += [self.indep_dis <= self.para_d_max]
+        # constraints += [cp.max(self.indep_dis) <= self.para_d_max]
+        # constraints += [cp.min(self.indep_dis) >= self.para_d_min]
 
         return constraints
 
