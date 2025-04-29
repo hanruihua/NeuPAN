@@ -191,8 +191,6 @@ https://github.com/user-attachments/assets/db9edbfe-94d9-4a58-98ee-6b30e64dd3d9
 
 ## License
 
-Copyright 2025 Ruihua Han
-
 This project is licensed under the [GNU General Public License v3.0](LICENSE).
 
 ## Citation
