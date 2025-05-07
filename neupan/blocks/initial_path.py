@@ -1,8 +1,9 @@
+
 """
 InitialPath is the class for generating the naive initial path for NeuPAN from the given waypoints.
 
 Developed by Ruihua Han
-Copyright (c) 2025 Ruihua Han <hanrh@connect.hku.hk>
+Copyright (c) 2025 Ruihua Han
 
 NeuPAN planner is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -22,7 +23,7 @@ import numpy as np
 from math import tan, inf, cos, sin, sqrt
 from gctl import curve_generator
 from neupan.util import WrapToPi, distance
-
+import math
 
 class InitialPath:
     """
@@ -120,10 +121,42 @@ class InitialPath:
         return nom_s, nom_u, ref_s, ref_us
 
     def set_initial_path(self, path):
+
+        '''
+        set the initial path from the given path
+
+        Args:
+            path: list of points, each point is a numpy array of shape (4, 1)
+        '''
+
         self.initial_path = path
+        self.interval = self.cal_average_interval(path)
         self.split_path_with_gear()
         self.curve_index = 0
         self.point_index = 0
+
+
+    def cal_average_interval(self, path):
+
+        '''
+        calculate the average interval of the given path
+
+        Args:
+            path: list of points, each point is a numpy array of shape (4, 1)
+        '''
+
+        n = len(path)
+
+        if n < 2:
+            return 0
+        
+        dist_sum = 0.0
+        for point1, point2 in zip(path, path[1:]):
+            x1, y1 = point1[0:2]
+            x2, y2 = point2[0:2]
+            dist_sum += math.hypot(x2 - x1, y2 - y1)
+
+        return dist_sum / (n - 1)
 
     def closest_point(self, state, threshold=0.1, ind_range=10):
 
@@ -272,12 +305,12 @@ class InitialPath:
         if current_curve:
             self.curve_list.append(current_curve)
 
-    def generate_initial_path_from_file(self, state, interval):
-        """
-        generate initial path from the given file
-        """
-        # waypoints = np.loadtxt(self.wp_file, delimiter=' ')
-        pass
+    # def generate_initial_path_from_file(self, state, interval):
+    #     """
+    #     generate initial path from the given file
+    #     """
+    #     # waypoints = np.loadtxt(self.wp_file, delimiter=' ')
+    #     pass
 
     def init_path_with_state(self, state):
 

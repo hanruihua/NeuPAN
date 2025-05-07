@@ -2,7 +2,7 @@
 PAN is the core class for the NeuPan algorithm. It is a proximal alternating-minimization network, consisting of NRMP and DUNE, that solves the optimization problem with numerous point-level collision avoidance constraints in each step. 
 
 Developed by Ruihua Han
-Copyright (c) 2025 Ruihua Han <hanrh@connect.hku.hk>
+Copyright (c) 2025 Ruihua Han
 
 NeuPAN planner is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -101,6 +101,8 @@ class PAN(torch.nn.Module):
             None,
         ]  # nom_s, nom_u, nom_lam, nom_mu
 
+        self.printed = False
+
     def forward(
         self, nom_s: torch.Tensor, nom_u: torch.Tensor, ref_s: torch.Tensor, ref_us: torch.Tensor, obs_points: torch.Tensor = None, point_velocities: torch.Tensor = None
     ):
@@ -164,7 +166,7 @@ class PAN(torch.nn.Module):
             point_velocities = torch.zeros_like(obs_points)
 
         if obs_points.shape[1] > self.dune_max_num:
-            print(f"down sample the obs points from {obs_points.shape[1]} to {self.dune_max_num}")
+            self.print_once(f"down sample the obs points from {obs_points.shape[1]} to {self.dune_max_num}") 
             obs_points = downsample_decimation(obs_points, self.dune_max_num)
             point_velocities = downsample_decimation(point_velocities, self.dune_max_num)
 
@@ -268,4 +270,9 @@ class PAN(torch.nn.Module):
     @property
     def min_distance(self):
         return inf if self.no_obs else self.dune_layer.min_distance
+    
 
+    def print_once(self, message):
+        if not self.printed:
+            print(message)
+            self.printed = True
