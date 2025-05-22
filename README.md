@@ -170,7 +170,10 @@ You can use the `train` section in YAML file to set the training parameters for 
 
 We provide a ROS wrapper for NeuPAN. You can refer to the [neupan_ros](https://github.com/hanruihua/neupan_ros) repo to see the details. The Gazebo demonstrations are shown below:
 
-https://github.com/user-attachments/assets/51a2fad2-103c-4ddb-ab4a-ce616957cba1
+
+
+https://github.com/user-attachments/assets/1d5eb028-0d22-4741-8899-40a3ea7caab4
+
 
 
 ## Notes for Real World Deployment
