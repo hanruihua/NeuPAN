@@ -63,8 +63,8 @@ class NRMP(torch.nn.Module):
         self.q_s = value_to_tensor(q_s, True)
         self.p_u = value_to_tensor(p_u, True)
 
-        self.ro_obs = value_to_tensor(ro_obs)
-        self.bk = value_to_tensor(bk)
+        self.ro_obs = ro_obs
+        self.bk = bk
 
         self.adjust_parameters = (
             [self.q_s, self.p_u]
