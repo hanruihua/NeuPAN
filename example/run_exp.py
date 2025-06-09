@@ -1,5 +1,5 @@
 from neupan import neupan
-from irsim.env import EnvBase
+import irsim
 import numpy as np
 import argparse
 
@@ -12,9 +12,10 @@ def main(
     no_display=True,
     point_vel=False,
     max_steps=1000, 
+    reverse=False,
 ):
     
-    env = EnvBase(env_file, save_ani=save_animation, full=full, display=no_display)
+    env = irsim.make(env_file, save_ani=save_animation, full=full, display=no_display)
     neupan_planner = neupan.init_from_yaml(planner_file)
     
     # neupan_planner.update_adjust_parameters(q_s=0.5, p_u=1.0, eta=10.0, d_max=1.0, d_min=0.1)
@@ -53,7 +54,18 @@ def main(
             break
 
         if i == 0:
-            env.draw_trajectory(neupan_planner.initial_path, traj_type="-k")
+            
+            if reverse:
+                # for reverse motion
+                for j in range(len(neupan_planner.initial_path)):
+                    neupan_planner.initial_path[j][-1, 0] = -1
+                    neupan_planner.initial_path[j][-2, 0] = neupan_planner.initial_path[j][-2, 0] + 3.14
+                
+                env.draw_trajectory(neupan_planner.initial_path, traj_type="-k", show_direction=True)
+            else:   
+                env.draw_trajectory(neupan_planner.initial_path, traj_type="-k", show_direction=False)
+
+            env.render()
 
     env.end(3, ani_name=ani_name)
 
@@ -67,6 +79,7 @@ if __name__ == "__main__":
     parser.add_argument("-f", "--full", action="store_true", help="full screen")
     parser.add_argument("-n", "--no_display", action="store_false", help="no display")
     parser.add_argument("-v", "--point_vel", action='store_true', help="point vel")
+    parser.add_argument("-m", "--max_steps", type=int, default=1000, help="max steps")
 
     args = parser.parse_args()
 
@@ -75,4 +88,6 @@ if __name__ == "__main__":
 
     ani_name = args.example + "_" + args.kinematics + "_ani"
 
-    main(env_path_file, planner_path_file, args.save_animation, ani_name, args.full, args.no_display, args.point_vel)
+    reverse = (args.example == "reverse" and args.kinematics == "diff")
+
+    main(env_path_file, planner_path_file, args.save_animation, ani_name, args.full, args.no_display, args.point_vel, args.max_steps, reverse)

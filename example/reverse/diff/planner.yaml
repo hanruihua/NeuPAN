@@ -1,0 +1,51 @@
+# mpc
+receding: 10
+step_time: 0.1
+ref_speed: 4
+device: 'cpu'
+time_print: True
+collision_threshold: 0.1
+
+# robot
+robot:
+  kinematics: 'diff'
+  max_speed: [8, 3]
+  max_acce: [8, 3]
+  length: 1.6
+  width: 2.0
+  # vertices: [[-0.8, -1.0], [-0.8, 1.0], [0.8, 1.0], [0.8, -1.0]] 
+
+# initial path
+ipath:
+  # interval: 0.4
+  waypoints: [[23, 30, -1.57], [41, 28, -1], [30, 38, 2], [10, 19, -2], [29, 18, 3]]
+  curve_style: 'line'   # 'dubins' or reeds or line
+  min_radius: 4.0
+  loop: False
+  arrive_threshold: 0.1
+  close_threshold: 0.1
+  ind_range: 10
+  arrive_index_threshold: 1
+  
+# proximal alternating minimization network
+pan:
+  iter_num: 2
+  dune_max_num: 100
+  nrmp_max_num: 10
+  iter_threshold: 0.1
+  dune_checkpoint: 'example/model/diff_robot_default/model_5000.pth'
+
+
+# adjust parameters
+adjust:
+  q_s: 1.0
+  p_u: 1.0
+  eta: 15.0
+  d_max: 0.5
+  d_min: 0.1
+
+  
+
+
+  
+
