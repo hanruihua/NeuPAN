@@ -40,7 +40,7 @@ class InitialPath:
         robot,
         waypoints=None,
         loop=False,
-        curve_style="dubin",
+        curve_style="line",
         **kwargs,
     ) -> None:
 

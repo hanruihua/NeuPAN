@@ -107,7 +107,7 @@ Since there are quite a lot of parameters setting for the Neupan planner, we pro
 | ------------------------ | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
 | `waypoints`              | `list[list[float]]` / None                 | The waypoints of the path. `[[x1, y1], [x2, y2], ...]`                                                       |
 | `loop`                   | `bool` / False                             | When robots arrive at the last waypoint, whether the path will be reset to the beginning.                    |
-| `curve_style`            | `str` / dubins                             | The style of the curve. `dubins` for Dubins' path, `reeds` for Reeds-Shepp's path. `line` for straight line. |
+| `curve_style`            | `str` / `line`                             | The style of the curve. `dubins` for Dubins' path, `reeds` for Reeds-Shepp's path. `line` for straight line. |
 | `min_radius`             | `float` / default_turn_radius of the robot | The minimum radius of the curve.                                                                             |
 | `interval`               | `float` / ref_speed * step_time            | The interval of the points in the path.                                                                      |
 | `arrive_threshold`       | `float` / 0.1                              | The threshold to judge whether the robot arrives at the target.                                              |
