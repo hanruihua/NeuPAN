@@ -193,6 +193,31 @@ https://github.com/user-attachments/assets/1d5eb028-0d22-4741-8899-40a3ea7caab4
   - Dubins' paths for forward Ackermann vehicles, or
   - Reeds-Shepp paths for forward and backward Ackermann vehicles.
 
+
+## FAQ:
+
+### Can I use 3D lidar or other sensors such as camera to run this algorithm?
+
+Yes. NeuPAN algorithm is designed to read the 2D points as obstacles to avoid. You can use any sensors to get these points and feed them to NeuPAN. For 3D lidar, you can convert the 3D points to 2D space by projecting them onto the ground plane (e.g., [pointcloud_to_laserscan](http://wiki.ros.org/pointcloud_to_laserscan)); For camera, you can extract the 2D points from the camera image. 
+
+### How to run NeuPAN on my own robot with a specific kinematics?
+
+Currently, NeuPAN only supports the kinematics of differential drive robots (`diff`) and Ackermann robots (`acker`). If you want to use other kinematics, you can modify the [kinematic constraints](https://github.com/hanruihua/NeuPAN/blob/main/neupan/robot/robot.py#L188) in the NRMP layer to suit your needs. We also welcome contributions to support more kinematics by PR or issues. You can test the performance in the ir-sim environments.
+
+### When should I retrain the DUNE model? 
+
+You only need to retrain the DUNE model when you change the robot size or shape. Except that, changing the sensors or the scenarios will not influence the performance of the DUNE model. 
+
+### What is the most important parameter to train DUNE?
+
+Before training the DUNE model, you should confirm the robot geometry (vertices or length and width for rectangle) in the `robot` section is correct. Additionally, `data_range` in train section is also important, which is decided by the maximum range of the obstacle points you want to consider.
+
+### How can I integrate NeuPAN with other global planners such as A*?
+
+You can update the initial path from other global planners in real time by the function [set_initial_path](https://github.com/hanruihua/NeuPAN/blob/main/neupan/neupan.py#L286C9-L286C25). For neupan_ros, you can use the topic `/initial_path` and set the `refresh_initial_path` to be True to read the initial path from other global planners.
+
+*If there are any technical issues, please feel free to open an issue or contact me (hanrh@connect.hku.hk). Contributions to make this project better are also welcome.*
+
 ## License
 
 This project is licensed under the [GNU General Public License v3.0](LICENSE).
