@@ -57,6 +57,7 @@ class InitialPath:
         self.close_threshold = kwargs.get("close_threshold", 0.1)
         self.ind_range = kwargs.get("ind_range", 10)
         self.arrive_index_threshold = kwargs.get("arrive_index_threshold", 1)
+        self.arrive_flag = False
 
         self.cg = curve_generator()
         # initial path and gear
@@ -115,7 +116,11 @@ class InitialPath:
         nom_u = cur_vel_array
         ref_s = np.hstack(state_ref_list)
 
+        # if max(gear_list[1:]) < 0.001:
+        #     gear_array = np.zeros(self.T)
+        # else:
         gear_array = np.array(gear_list)
+
         ref_us = gear_array * ref_speed
 
         return nom_s, nom_u, ref_s, ref_us
@@ -254,20 +259,25 @@ class InitialPath:
         )  # find the closest point on the path
 
         if self.check_curve_arrive(state, self.arrive_threshold, self.arrive_index_threshold):
-            self.curve_index += 1
-            self.point_index = 0
-
-            if self.curve_index >= self.curve_number:
-                self.curve_index = 0
-                self.point_index = 0
-
+            
+            if self.curve_index + 1 >= self.curve_number:
+                
                 if self.loop:
-                    print("loop, reset the path")
+                    self.curve_index = 0
+                    self.point_index = 0
+
+                    print("Info: loop, reset the path")
                     # self.initial_path.reverse()
                     # self.split_path_with_gear()
                     return False
                 else:
+                    if not self.arrive_flag:
+                        print("Info: arrive at the end of the path")
+                        self.arrive_flag = True
                     return True
+            else:
+                self.curve_index += 1
+                self.point_index = 0
 
         return False
 
@@ -276,10 +286,10 @@ class InitialPath:
         final_point = self.cur_curve[-1][0:2]
         arrive_distance = np.linalg.norm(state[0:2] - final_point)
 
-        return (
+        return(
             arrive_distance < arrive_threshold
-            and self.point_index >= (len(self.cur_curve) - arrive_index_threshold)
-        ) or (self.point_index >= (len(self.cur_curve) - 3))
+            and self.point_index >= (len(self.cur_curve) - arrive_index_threshold - 2)
+        )
 
     def split_path_with_gear(self):
         """
@@ -305,13 +315,6 @@ class InitialPath:
         if current_curve:
             self.curve_list.append(current_curve)
 
-    # def generate_initial_path_from_file(self, state, interval):
-    #     """
-    #     generate initial path from the given file
-    #     """
-    #     # waypoints = np.loadtxt(self.wp_file, delimiter=' ')
-    #     pass
-
     def init_path_with_state(self, state):
 
         assert len(self.waypoints) > 0, "Error: waypoints are not set"
@@ -327,6 +330,10 @@ class InitialPath:
         self.initial_path = self.cg.generate_curve(
             self.curve_style, self.waypoints, self.interval, self.min_radius, True
         )
+
+        if self.curve_style == 'line':
+            # Ensure consistent angles for line curve
+            self._ensure_consistent_angles()
 
     def init_check(self, state):
 
@@ -352,6 +359,10 @@ class InitialPath:
         self.initial_path = self.cg.generate_curve(
             self.curve_style, waypoints, self.interval, self.min_radius, True
         )
+        
+        if self.curve_style == 'line':
+            # Ensure consistent angles for line curve
+            self._ensure_consistent_angles()
 
         self.split_path_with_gear()
         # self.path_index = 0
@@ -363,6 +374,10 @@ class InitialPath:
         self.initial_path = self.cg.generate_curve(
             self.curve_style, waypoints, self.interval, self.min_radius, True
         )
+        
+        if self.curve_style == 'line':
+            # Ensure consistent angles for line curve
+            self._ensure_consistent_angles()
 
         self.split_path_with_gear()
         # self.path_index = 0
@@ -449,6 +464,28 @@ class InitialPath:
             default_radius = 0.0
 
         return default_radius
+
+    def _ensure_consistent_angles(self):
+        """
+        Ensure that all points in the initial path have consistent angles.
+        For line curves, angles should represent the direction of travel.
+        """
+        if self.initial_path is None or len(self.initial_path) < 2:
+            return
+        
+        for i in range(len(self.initial_path) - 1):
+            current_point = self.initial_path[i]
+            next_point = self.initial_path[i + 1]
+            
+            dx = next_point[0, 0] - current_point[0, 0]
+            dy = next_point[1, 0] - current_point[1, 0]
+            
+            theta = math.atan2(dy, dx)
+            
+            current_point[2, 0] = theta
+        
+        if len(self.initial_path) >= 2:
+            self.initial_path[-1][2, 0] = self.initial_path[-2][2, 0]
 
     def trans_to_np_list(self, point_list):
 
