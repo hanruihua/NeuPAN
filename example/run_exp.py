@@ -36,10 +36,10 @@ def main(
         action, info = neupan_planner(robot_state, points, point_velocities)
 
         if info["stop"]:
-            print("NeuPAN stop because of minimum distance")
+            print("NeuPAN stops because of minimum distance")
 
         if info["arrive"]:
-            print("arrive at target")
+            print("NeuPAN arrives at the target")
             break
 
         env.draw_points(neupan_planner.dune_points, s=25, c="g", refresh=True)

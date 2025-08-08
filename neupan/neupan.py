@@ -279,6 +279,7 @@ class neupan(torch.nn.Module):
     def reset(self):
         self.ipath.point_index = 0
         self.ipath.curve_index = 0
+        self.ipath.arrive_flag = False
         self.info["stop"] = False
         self.info["arrive"] = False
         self.cur_vel_array = np.zeros_like(self.cur_vel_array)
