@@ -68,7 +68,6 @@ class robot:
         self.speed_bound = self.max_speed
         self.acce_bound = self.max_acce * self.dt
 
-        self.state_dim = 2
         self.name = kwargs.get("name", self.kinematics + "_robot" + '_default') 
 
 
