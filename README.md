@@ -105,7 +105,7 @@ Since there are quite a lot of parameters setting for the Neupan planner, we pro
 
 | Parameter Name           | Type / Default Value                       | Description                                                                                                  |
 | ------------------------ | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
-| `waypoints`              | `list[list[float]]` / None                 | The waypoints of the path. `[[x1, y1], [x2, y2], ...]`                                                       |
+| `waypoints`              | `list[list[float]]` / None                 | The waypoints of the path. `[[x1, y1, theta1], [x2, y2, theta2], ...]`                                                       |
 | `loop`                   | `bool` / False                             | When robots arrive at the last waypoint, whether the path will be reset to the beginning.                    |
 | `curve_style`            | `str` / `line`                             | The style of the curve. `dubins` for Dubins' path, `reeds` for Reeds-Shepp's path. `line` for straight line. |
 | `min_radius`             | `float` / default_turn_radius of the robot | The minimum radius of the curve.                                                                             |
