@@ -20,7 +20,6 @@ along with NeuPAN planner. If not, see <https://www.gnu.org/licenses/>.
 
 import torch
 import cvxpy as cp
-import numpy as np
 from neupan.robot import robot
 from neupan.configuration import to_device, value_to_tensor, np_to_tensor
 from cvxpylayers.torch import CvxpyLayer

@@ -239,7 +239,7 @@ class InitialPath:
             return None
         else:
 
-            t1 = (-b - sqrt(discriminant)) / (2 * a)
+            # t1 = (-b - sqrt(discriminant)) / (2 * a)
             t2 = (-b + sqrt(discriminant)) / (2 * a)
 
             if t2 >= 0 and t2 <= 1:
@@ -427,17 +427,6 @@ class InitialPath:
         # next_state[2, 0] = wraptopi(next_state[2, 0])
 
         return next_state
-
-    def default_turn_radius(self):
-
-        if self.robot.kinematics == "acker":
-            L = self.robot.wheelbase
-            max_psi = self.robot.max_speed[1]
-            default_radius = L / tan(max_psi)  # radius =  wheelbase / tan(psi)
-        else:
-            default_radius = 0.0
-
-        return default_radius
 
     @property
     def cur_waypoints(self):

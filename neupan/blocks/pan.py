@@ -20,10 +20,8 @@ along with NeuPAN planner. If not, see <https://www.gnu.org/licenses/>.
 
 import torch
 from neupan.blocks import NRMP, DUNE
-import numpy as np
 from math import inf
 from typing import Optional
-import numpy as np
 from neupan.configuration import to_device, tensor_to_np
 from neupan.util import downsample_decimation
 
@@ -267,11 +265,7 @@ class PAN(torch.nn.Module):
         else:
             return tensor_to_np(self.nrmp_layer.points)
 
-    @property
-    def min_distance(self):
-        return inf if self.no_obs else self.dune_layer.min_distance
-    
-
+ 
     def print_once(self, message):
         if not self.printed:
             print(message)
