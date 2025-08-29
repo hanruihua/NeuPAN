@@ -12,7 +12,7 @@ readme = "README.md"
 dependencies = [
     'cvxpylayers',
     'numpy',
-    'scipy',
+    'scipy<=1.13.0',
     'rich',
     'dill',
     'gctl==1.2',
