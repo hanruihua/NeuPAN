@@ -161,6 +161,9 @@ class neupan(torch.nn.Module):
             vy = vel[0, 0] * sin(vel[1, 0])
             action = np.array([[vx], [vy]])
 
+            self.info['omni_linear_speed'] = vel[0, 0]
+            self.info['omni_orientation'] = vel[1, 0]
+
         return action, self.info
 
     def check_stop(self):
