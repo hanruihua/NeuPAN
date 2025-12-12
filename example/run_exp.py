@@ -74,7 +74,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-e", "--example", type=str, default="polygon_robot", help="pf, pf_obs, corridor, dyna_obs, dyna_non_obs, convex_obs, non_obs, polygon_robot, reverse")
-    parser.add_argument("-d", "--kinematics", type=str, default="diff", help="acker, diff")
+    parser.add_argument("-d", "--kinematics", type=str, default="diff", help="acker, diff, omni")
     parser.add_argument("-a", "--save_animation", action="store_true", help="save animation")
     parser.add_argument("-f", "--full", action="store_true", help="full screen")
     parser.add_argument("-n", "--no_display", action="store_false", help="no display")

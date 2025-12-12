@@ -70,7 +70,6 @@ class robot:
 
         self.name = kwargs.get("name", self.kinematics + "_robot" + '_default') 
 
-
     def define_variable(self, no_obs: bool = False, indep_dis: cp.Variable = None):
 
         """
@@ -152,7 +151,12 @@ class robot:
         diff_u = para_p_u * self.indep_u[0, :] - self.para_gamma_b
         diff_s = para_q_s * self.indep_s - self.para_gamma_a
 
-        C0_cost = cp.sum_squares(diff_s) + cp.sum_squares(diff_u) 
+        if self.kinematics == 'omni':
+            diff_s_cost = cp.sum_squares(diff_s[0:2])
+        else:
+            diff_s_cost = cp.sum_squares(diff_s)
+
+        C0_cost = diff_s_cost + cp.sum_squares(diff_u) 
 
         return C0_cost
 
@@ -239,6 +243,8 @@ class robot:
                 A, B, C = self.linear_ackermann_model(nom_st, nom_ut, self.dt, self.L)
             elif self.kinematics == 'diff':
                 A, B, C = self.linear_diff_model(nom_st, nom_ut, self.dt)
+            elif self.kinematics == 'omni':
+                A, B, C = self.linear_omni_model(nom_ut, self.dt)
             else:
                 raise ValueError('kinematics currently only supports acker or diff')
 
@@ -285,8 +291,20 @@ class robot:
                         [ 0 ]])
                 
         return to_device(A), to_device(B), to_device(C) 
+    
+    def linear_omni_model(self, nom_u, dt):
+        
+        phi = nom_u[1, 0]
+        v = nom_u[0, 0]
 
+        A = torch.Tensor([ [1, 0, 0], [0, 1, 0], [0, 0, 1] ])
+        B = torch.Tensor([ [ cos(phi) * dt, -v * sin(phi)* dt], [sin(phi)* dt, v*cos(phi) * dt], 
+                        [ 0, 0 ] ])
 
+        C = torch.Tensor([ [ phi*v*sin(phi)*dt ], [ -phi*v*cos(phi)*dt ], 
+                        [ 0 ]])
+        
+        return to_device(A), to_device(B), to_device(C) 
 
     def cal_vertices_from_length_width(self, length, width, wheelbase=None):
         """

@@ -155,6 +155,12 @@ class neupan(torch.nn.Module):
 
         action = opt_vel_np[:, 0:1]
 
+        if self.robot.kinematics == 'omni':
+            vel = opt_vel_np[:, 0:1]
+            vx = vel[0, 0] * cos(vel[1, 0])
+            vy = vel[0, 0] * sin(vel[1, 0])
+            action = np.array([[vx], [vy]])
+
         return action, self.info
 
     def check_stop(self):

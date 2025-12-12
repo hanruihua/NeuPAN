@@ -53,7 +53,7 @@ Please Install [IR-SIM](https://github.com/hanruihua/ir-sim) first by:
 pip install ir-sim
 ```
 
-You can run examples in the [example](https://github.com/hanruihua/NeuPAN/tree/main/example) folder to see the navigation performance of `diff` (differential) and `acker` (ackermann) robot powered by NeuPAN in IR-SIM. Scenarios include 
+You can run examples in the [example](https://github.com/hanruihua/NeuPAN/tree/main/example) folder to see the navigation performance of `diff` (differential), `acker` (ackermann) and `omni` (omni) robot powered by NeuPAN in IR-SIM. Scenarios include 
 
 `convex_obs` (convex obstacles); `corridor` (corridor); `dyna_non_obs` (dynamic nonconvex obstacles); `dyna_obs` (dynamic obstacles); `non_obs` (nonconvex obstacles); `pf` (path following); `pf_obs` (path following with obstacles); `polygon_robot` (polygon robot), `reverse` (car reverse parking); [dune training](https://github.com/hanruihua/NeuPAN/tree/main/example/dune_train); and [LON training](https://github.com/hanruihua/NeuPAN/tree/main/example/LON). 
 
@@ -93,10 +93,10 @@ Since there are quite a lot of parameters setting for the Neupan planner, we pro
 
 | Parameter Name | Type / Default Value                       | Description                                                                                                    |
 | -------------- | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------- |
-| `kinematics`   | `str` / "diff"                             | The kinematics of the robot. `diff` for differential drive, `acker` for Ackermann drive. For `diff` robot, the output action is linear and angular speed. For `acker` robot, the output action is linear speed and steering angle.                      |
+| `kinematics`   | `str` / "diff"                             | The kinematics of the robot. `diff` for differential drive, `acker` for Ackermann drive, `omni` for omni drive. For `diff` robot, the output action is linear and angular speed. For `acker` robot, the output action is linear speed and steering angle. For `omni` robot, the output action is speed in x and y direction.                      |
 | `vertices`     | `list[list[float]]` / None                 | The vertices of the robot in the initial state. `[[x1, y1], [x2, y2], ...]`                                    |
-| `max_speed`    | `list[float]` / [inf, inf]                 | The maximum speed of the robot. For `diff`: [max_linear_speed, max_angular_speed]. For `acker`: [max_linear_speed, max_steering_angle].                                                                                |
-| `max_acce`     | `list[float]` / [inf, inf]                 | The maximum acceleration of the robot. For `diff`: [max_linear_acceleration, max_angular_acceleration]. For `acker`: [max_linear_acceleration, max_steering_acceleration].                                                                                |
+| `max_speed`    | `list[float]` / [inf, inf]                 | The maximum speed of the robot. For `diff`: [max_linear_speed, max_angular_speed]. For `acker`: [max_linear_speed, max_steering_angle]. For `omni`: [max_linear_speed, max_angular_speed]. Note: Although the `omni` output action is `vx` and `vy`, we still use max_linear_speed and max_angular_speed to make the motion more stable                                                                            |
+| `max_acce`     | `list[float]` / [inf, inf]                 | The maximum acceleration of the robot. For `diff`: [max_linear_acceleration, max_angular_acceleration]. For `acker`: [max_linear_acceleration, max_steering_acceleration]. For `omni`: [max_linear_acceleration, max_angular_acceleration].                                                                               |
 | `wheelbase`    | `float` / None                             | The wheelbase of the robot. Generally set for the ackermann robots.                                            |
 | `length`       | `float` / None                             | The length of the robot. If the `vertices` is not given, this parameter is required for rectangle robot simply |
 | `width`        | `float` / None                             | The width of the robot.  If the `vertices` is not given, this parameter is required for rectangle robot simply |
@@ -179,7 +179,7 @@ https://github.com/user-attachments/assets/1d5eb028-0d22-4741-8899-40a3ea7caab4
 
 ## Notes for Real World Deployment
 
-- You can easily deploy the NeuPAN algorithm on a real robot platform using [neupan_ros](https://github.com/hanruihua/neupan_ros). Currently, NeuPAN supports the kinematics of differential drive robots and Ackermann robots (see the `robot` section in the YAML file). For robots with other kinematics, you can modify the constraints in the NRMP layer to suit your needs.
+- You can easily deploy the NeuPAN algorithm on a real robot platform using [neupan_ros](https://github.com/hanruihua/neupan_ros). Currently, NeuPAN supports the kinematics of differential drive robots, Ackermann robots and omni-directional robots (see the `robot` section in the YAML file). For robots with other kinematics, you can modify the constraints in the NRMP layer to suit your needs.
 
 - The DUNE model trained in simulation can be directly applied in the real world without retraining.
 
@@ -203,7 +203,7 @@ Yes. NeuPAN algorithm is designed to read the 2D points as obstacles to avoid. Y
 
 ### How to run NeuPAN on my own robot with a specific kinematics?
 
-Currently, NeuPAN only supports the kinematics of differential drive robots (`diff`) and Ackermann robots (`acker`). If you want to use other kinematics, you can modify the [kinematic constraints](https://github.com/hanruihua/NeuPAN/blob/main/neupan/robot/robot.py#L188) in the NRMP layer to suit your needs. We also welcome contributions to support more kinematics by PR or issues. You can test the performance in the ir-sim environments.
+Currently, NeuPAN only supports the kinematics of differential drive robots (`diff`), Ackermann robots (`acker`) and omni-directional robots (`omni`). If you want to use other kinematics, you can modify the [kinematic constraints](https://github.com/hanruihua/NeuPAN/blob/main/neupan/robot/robot.py#L188) in the NRMP layer to suit your needs. We also welcome contributions to support more kinematics by PR or issues. You can test the performance in the ir-sim environments.
 
 ### When should I retrain the DUNE model? 
 
