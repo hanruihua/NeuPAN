@@ -63,7 +63,7 @@ Some demonstrations run by `run_exp.py` are shown below:
 | :-------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------: |
 | **```python run_exp.py -e polygon_robot -d diff```**  <img src="https://github.com/user-attachments/assets/feb91992-4d4c-4392-b78d-3553f554667f" width="350" /> | **```python run_exp.py -e dyna_obs -d diff -v```** <img src="https://github.com/user-attachments/assets/43602c29-a0d3-4d06-82e8-500fca8f4aa2" width="350" /> |  |
 |   **```python run_exp.py -e corridor -d acker```**  <img src="https://github.com/user-attachments/assets/fbcf9875-2e33-4e97-ba40-54826c2bc70d" width="350" />   |  **```python run_exp.py -e corridor -d diff```**  <img src="https://github.com/user-attachments/assets/82ccd0c5-9ac9-4fcf-8705-d81753c6b7a8" width="350" />  |
-|   **```python run_exp.py -e dyna_non_obs  -d omni```**  <img src="https://github.com/user-attachments/assets/4a9b01fa-d14a-4c95-86e0-00b3abe5a2e4" width="350" />   |  **```python run_exp.py -e dyna_obs -d omni```**  <img src="https://github.com/user-attachments/assets/a4534cde-d745-45d2-acee-0f8207d10a6b" width="350" />  |
+|   **```python run_exp.py -e polygon_robot -d omni```**  <img src="https://github.com/user-attachments/assets/1900c57b-4d4f-4f59-8960-3f223675fa96" width="350" />   |  **```python run_exp.py -e dyna_obs -d omni```**  <img src="https://github.com/user-attachments/assets/a4534cde-d745-45d2-acee-0f8207d10a6b" width="350" />  |
 
 
 > [!NOTE]

@@ -9,10 +9,8 @@ collision_threshold: 0.1
 # robot
 robot:
   kinematics: 'omni'
-  max_speed: [8, 6.28]
-  max_acce: [2, 2]
-  length: 1.6
-  width: 2.0
+  max_speed: [8, 6.28] # linear speed and angular speed
+  max_acce: [2, 2] # linear acceleration and angular acceleration
   vertices: [[-0.8, -1.0], [-1.8, 1.0], [1.8, 1.0], [0.8, -1.0]]
 
 # initial path
@@ -37,9 +35,9 @@ pan:
 
 # adjust parameters
 adjust:
-  q_s: 0.5
-  p_u: 1.0
-  eta: 10.0
+  q_s: 1.0
+  p_u: 0.5
+  eta: 15.0
   d_max: 1.0
   d_min: 0.1
 
