@@ -10,7 +10,7 @@ collision_threshold: 0.1
 robot:
   kinematics: 'omni'
   max_speed: [8, 6.28]
-  max_acce: [2, 2]
+  max_acce: [2, 1]
   length: 1.6
   width: 2.0
 
@@ -38,9 +38,9 @@ pan:
 
 # adjust parameters
 adjust:
-  q_s: 0.4
+  q_s: 0.6
   p_u: 0.4
-  eta: 15.0
+  eta: 10.0
   d_max: 1.0
   d_min: 0.1
 
