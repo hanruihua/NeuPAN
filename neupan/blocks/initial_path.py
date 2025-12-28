@@ -392,6 +392,9 @@ class InitialPath:
 
         elif self.robot.kinematics == "diff":
             next_state = self.diff_model(robot_state, vel, sample_time)
+        
+        elif self.robot.kinematics == "omni":
+            next_state = self.omni_model(robot_state, vel, sample_time)
 
         return next_state
 
@@ -426,6 +429,18 @@ class InitialPath:
 
         # next_state[2, 0] = wraptopi(next_state[2, 0])
 
+        return next_state
+    
+    def omni_model(self, robot_state, vel, sample_time):
+
+        assert robot_state.shape[0] >= 2 and vel.shape == (2, 1)
+
+        vx = vel[0, 0] * cos(vel[1, 0])
+        vy = vel[0, 0] * sin(vel[1, 0])
+        omni_vel = np.array([[vx], [vy], [0]])
+
+        next_state = robot_state + sample_time * omni_vel
+       
         return next_state
 
     @property
