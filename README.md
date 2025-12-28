@@ -53,9 +53,19 @@ Please Install [IR-SIM](https://github.com/hanruihua/ir-sim) first by:
 pip install ir-sim
 ```
 
-You can run examples in the [example](https://github.com/hanruihua/NeuPAN/tree/main/example) folder to see the navigation performance of `diff` (differential), `acker` (ackermann) and `omni` (omni) robot powered by NeuPAN in IR-SIM. Scenarios include 
+You can run examples in the [example](https://github.com/hanruihua/NeuPAN/tree/main/example) folder to see the navigation performance of `diff` (differential), `acker` (ackermann) and `omni` (Omnidirectional) robot powered by NeuPAN in IR-SIM. Scenarios include:
 
-`convex_obs` (convex obstacles); `corridor` (corridor); `dyna_non_obs` (dynamic nonconvex obstacles); `dyna_obs` (dynamic obstacles); `non_obs` (nonconvex obstacles); `pf` (path following); `pf_obs` (path following with obstacles); `polygon_robot` (polygon robot), `reverse` (car reverse parking); [dune training](https://github.com/hanruihua/NeuPAN/tree/main/example/dune_train); and [LON training](https://github.com/hanruihua/NeuPAN/tree/main/example/LON). 
+- `convex_obs` (convex obstacles)
+- `corridor` (corridor)
+- `dyna_non_obs` (dynamic nonconvex obstacles)
+- `dyna_obs` (dynamic obstacles)
+- `non_obs` (nonconvex obstacles)
+- `pf` (path following)
+- `pf_obs` (path following with obstacles)
+- `polygon_robot` (polygon robot)
+- `reverse` (car reverse parking)
+- [dune training](https://github.com/hanruihua/NeuPAN/tree/main/example/dune_train)
+- [LON training](https://github.com/hanruihua/NeuPAN/tree/main/example/LON) 
 
 Some demonstrations run by `run_exp.py` are shown below:
 
