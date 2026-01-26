@@ -23,16 +23,28 @@
 
 **NeuPAN** (Neural Proximal Alternating-minimization Network) is an **end-to-end**, **real-time**, **map-free**, and **easy-to-deploy** MPC based robot motion planner. By integrating learning-based and optimization-based techniques, **NeuPAN directly maps obstacle points data to control actions in real-time** by solving an end-to-end mathematical model with numerous point-level collision avoidance constraints. This eliminates middle modules design to avoid error propagation and achieves high accuracy, allowing the robot to navigate in cluttered and unknown environments efficiently and safely.
 
+## Why using NeuPAN
+
+| Aspect | Traditional Modular Planners (TEB, DWA) | End-to-End Learning-based Planners (RL, IL) | **NeuPAN** |
+| ------ | --------------------------------------- | -------------------------------- | ---------- |
+| **Architecture** | Modular pipeline with object detection, mapping, and planning | End-to-end policy network | ✅ **End-to-end** framework without middle modules, avoiding error propagation |
+| **Environment Handling** | Limited by map representation and object models | Depends on training environments | ✅ **Directly processes obstacle points**, handles cluttered/unstructured environments with arbitrary shaped objects |
+| **Training Data** | N/A (rule-based) | Requires huge amount of real/simulated data | ✅ **Minimal training data**: simply random points within a certain range |
+| **Retraining** | N/A | Often requires retraining for new environments | ✅ **Train once** for robot geometry, apply to various environments without retraining |
+| **Safety Guarantee** | Relies on accurate perception | No formal safety guarantee | ✅ **Mathematical optimization** with collision avoidance constraints for reliable deployment |
+| **Deployment** | Complex integration required | Black-box policy, hard to debug | ✅ **Easy to deploy** and flexible to integrate with global planners (A*, VLN) |
+
+## Demonstrations
+
+More real world demonstrations are available on the [project page](https://hanruihua.github.io/neupan_project/).
+
 https://github.com/user-attachments/assets/7e53b88c-aba9-4eea-8708-9bbf0d0305fc
 
 https://github.com/user-attachments/assets/e37c5775-6e80-4cb5-9320-a04b54792e0e
 
 https://github.com/user-attachments/assets/71eef683-a996-488f-b51b-89e149d0cc6e
 
-More real world demonstrations are available on the [project page](https://hanruihua.github.io/neupan_project/).
-
 ![](./img/Architecture.png)
-
 
 ## Prerequisite
 - Python >= 3.10
@@ -204,6 +216,13 @@ https://github.com/user-attachments/assets/1d5eb028-0d22-4741-8899-40a3ea7caab4
   - Dubins' paths for forward Ackermann vehicles, or
   - Reeds-Shepp paths for forward and backward Ackermann vehicles.
 
+
+## Current Limitations
+
+- **CPU-bound optimization**: The NRMP layer uses cvxpy which does not support GPU acceleration, so inference speed depends on CPU performance.
+- **Supported kinematics**: Currently limited to differential drive, Ackermann, and omnidirectional robots. Other kinematics require modifying the NRMP constraints.
+- **Convex robot geometry**: The DUNE model assumes convex robot shapes. Non-convex robots need to be approximated by convex hulls.
+- **Parameter tuning**: Performance in specific environments may require tuning the `adjust` parameters for optimal results.
 
 ## FAQ:
 
