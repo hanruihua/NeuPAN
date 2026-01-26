@@ -30,6 +30,7 @@
 | **Architecture** | Modular pipeline with object detection, mapping, and planning | End-to-end policy network | ✅ **End-to-end** framework without middle modules, avoiding error propagation |
 | **Environment Handling** | Limited by map representation and object models | Depends on training environments | ✅ **Directly processes obstacle points**, handles cluttered/unstructured environments with arbitrary shaped objects |
 | **Training Data** | N/A (rule-based) | Requires huge amount of real/simulated data | ✅ **Minimal training data**: simply random points within a certain range |
+| **Training Time** | N/A (rule-based) | Hours to days on GPU clusters | ✅ **Fast training**: 1-2 hours on CPU for new robot geometry |
 | **Retraining** | N/A | Often requires retraining for new environments | ✅ **Train once** for robot geometry, apply to various environments without retraining |
 | **Safety Guarantee** | Relies on accurate perception | No formal safety guarantee | ✅ **Mathematical optimization** with collision avoidance constraints for reliable deployment |
 | **Deployment** | Complex integration required | Black-box policy, hard to debug | ✅ **Easy to deploy** and flexible to integrate with global planners (A*, VLN) |
