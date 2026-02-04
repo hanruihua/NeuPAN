@@ -172,24 +172,31 @@ class NRMP(torch.nn.Module):
         Update the adjust parameters value: q_s, p_u, eta, d_max, d_min
 
         Args:
-            q_s: float or list[float], the weight of the state cost.
-                 Can be a scalar or a 3-element list for x, y, theta dimensions.
+            q_s: float or list[float] or np.ndarray, the weight of the state cost.
+                 Can be a scalar or a 3-element list/array for x, y, theta dimensions.
             p_u: float, the weight of the speed cost
             eta: float, slack gain for L1 regularization
             d_max: float, the maximum safety distance
             d_min: float, the minimum safety distance
         '''
 
-        if self.q_s.dim() == 0:
-            self.q_s = value_to_tensor(kwargs.get("q_s", self.q_s), True)
-        elif self.q_s.shape == (3, 1):
+        q_s_value = kwargs.get("q_s", self.q_s)
 
-            temp_q_s = kwargs.get("q_s", self.q_s)
-            
-            if isinstance(temp_q_s, list):
-                np_q_s = np.array(temp_q_s).reshape(3, 1)
+        if self.q_s.dim() == 0:
+            if isinstance(q_s_value, (list, np.ndarray)):
+                value = q_s_value[0]
+                print(f"q_s should be a scalar when initialized as scalar, got list/array with {len(q_s_value)} elements. Using the first element: {value}")
+
+            self.q_s = value_to_tensor(value, True)
+
+        elif self.q_s.shape == (3, 1):
+            if isinstance(q_s_value, (list, np.ndarray)):
+                q_s_array = np.array(q_s_value).flatten()
+                if q_s_array.shape[0] != 3:
+                    raise ValueError(f"q_s must be a scalar or a 3-element list/array, got {q_s_array.shape[0]} elements")
+                np_q_s = q_s_array.reshape(3, 1)
             else:
-                np_q_s = temp_q_s
+                raise ValueError(f"q_s must be a 3d list, np.ndarray, or torch.Tensor, got {type(q_s_value)}")
 
             self.q_s = np_to_tensor(np_q_s, True).reshape(3, 1)
 
