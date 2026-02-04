@@ -183,7 +183,7 @@ class DUNETrain:
             )
 
         self.optimizer.param_groups[0]["lr"] = float(lr)
-        ful_model_name = None
+        full_model_name = None
 
         print("dataset generating start ...")
         dataset = self.generate_data_set(data_size, data_range)
@@ -269,7 +269,7 @@ class DUNETrain:
                         self.model.state_dict(),
                         self.checkpoint_path + "/" + "model_" + str(i) + ".pth",
                     )
-                    ful_model_name = (
+                    full_model_name = (
                         self.checkpoint_path + "/" + "model_" + str(i) + ".pth"
                     )
 
@@ -295,9 +295,9 @@ class DUNETrain:
                     with open(self.checkpoint_path + "/loss.pkl", "wb") as f:
                         pickle.dump(self.loss_list, f)
 
-        print("finish train, the model is saved in {}".format(ful_model_name))
+        print("finish train, the model is saved in {}".format(full_model_name))
 
-        return ful_model_name
+        return full_model_name
 
     def train_one_epoch(self, train_dataloader, validate=False):
         """
@@ -498,10 +498,6 @@ class DUNETrain:
                     file=f,
                 )
 
-                # with open(os.path.dirname(model_pth) + '/results_dict.pkl', 'wb') as f:
-                #     results_kwargs = { 'Model_name': os.path.basename(model_pth), 'Data_size': data_size, 'inference_time': sum(inference_time_list) / len(inference_time_list), 'mu_loss': sum(mu_loss_list)/ len(mu_loss_list), 'distance_loss': sum(distance_loss_list)/len(distance_loss_list), 'fa_loss': sum(fa_loss_list)/ len(fa_loss_list), 'fb_loss': sum(fb_loss_list) / len(fb_loss_list)}
-
-                #     pickle.dump(results_kwargs, f)
         print(
             "finish test, the results are saved in {}".format(
                 os.path.dirname(model_pth) + "/test_results.txt"
@@ -529,16 +525,4 @@ class DUNETrain:
 
         loss_list = [mse_mu.item(), mse_distance.item(), mse_fa.item(), mse_fb.item()]
 
-        # print('Data_size {}, inference_time {} \n'
-        #             '---------------------------------\n'
-        #             'Losses:\n'
-        #             '  Mu Loss:          {} \n'
-        #             '  Distance Loss:    {} \n'
-        #             '  Fa Loss:          {} \n'
-        #             '  Fb Loss:          {} \n'
-        #             .format(data_size, inference_time,
-        #                     str(average_loss_list[0]).ljust(10),
-        #                     str(average_loss_list[1]).ljust(10),
-        #                     str(average_loss_list[2]).ljust(10),
-        #                     str(average_loss_list[3]).ljust(10)))
         return loss_list, inference_time
