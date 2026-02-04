@@ -174,6 +174,9 @@ class NRMP(torch.nn.Module):
         Args:
             q_s: float or list[float] or np.ndarray, the weight of the state cost.
                  Can be a scalar or a 3-element list/array for x, y, theta dimensions.
+                 Note: The q_s type must be aligned with the initial dimension. If initialized as scalar,
+                 only scalar updates are allowed; if initialized as vector, only 3-element vector updates
+                 are allowed. Re-initialize the planner to switch types.
             p_u: float, the weight of the speed cost
             eta: float, slack gain for L1 regularization
             d_max: float, the maximum safety distance

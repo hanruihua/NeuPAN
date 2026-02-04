@@ -179,6 +179,11 @@ Since there are quite a lot of parameters setting for the Neupan planner, we pro
 > # This example uses lower weight (0.1) for theta, allowing more orientation flexibility
 > ```
 
+> [!NOTE]
+> **`q_s` Dimension Alignment:**
+>
+> The `q_s` type (scalar or vector) must be consistent between initialization and runtime updates. If `q_s` is initialized as a scalar in the YAML config, you can only update it with a scalar value. If initialized as a 3-element vector, you can only update it with a 3-element vector. To switch between scalar and vector `q_s`, you need to re-initialize the planner with the desired type in the YAML config.
+
 ## DUNE Model Training for Your Own Robot with a Specific Convex Geometry
 
 To train a DUNE model for your own robot with a specific convex geometry, you can refer to the [example/dune_train](https://github.com/hanruihua/NeuPAN/tree/main/example/dune_train) folder. Specifically, the convex geometry is defined in the `robot` section by the `vertices` (or `length` and `width` for rectangle) when the robot is in the initial state (coordinate origin). The training parameters can be adjusted in the `train` section. Generally, the training time is approximately 1-2 hours for a new robot geometry.
