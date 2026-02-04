@@ -85,7 +85,9 @@ class NRMP(torch.nn.Module):
             q_s_array = np.array(q_s).flatten()
             if q_s_array.shape[0] != 3:
                 raise ValueError(f"q_s must be a scalar or a 3-element list/array, got {q_s_array.shape[0]} elements")
-            self.q_s = np_to_tensor(q_s_array, True).reshape(3, 1)            
+            # Create tensor from numpy array and explicitly enable gradients
+            self.q_s = np_to_tensor(q_s_array, False).reshape(3, 1)
+            self.q_s.requires_grad_(True)
         else:
             # Scalar case: convert to 3x1 tensor with same value for all dimensions
             self.q_s = value_to_tensor(q_s, True)
