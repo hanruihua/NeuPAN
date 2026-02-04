@@ -21,7 +21,7 @@ along with NeuPAN planner. If not, see <https://www.gnu.org/licenses/>.
 import torch
 import cvxpy as cp
 from neupan.robot import robot
-from neupan.configuration import to_device, value_to_tensor, np_to_tensor
+from neupan.configuration import to_device, value_to_tensor, np_to_tensor, tensor_dtype
 from cvxpylayers.torch import CvxpyLayer
 from neupan.util import time_it
 from typing import Optional, List
@@ -110,10 +110,10 @@ class NRMP(torch.nn.Module):
         )
 
         solutions = self.nrmp_layer(*parameter_values, solver_args={"solve_method": self.solver}) # see cvxpylayers and cvxpy for more details
-        opt_solution_state = solutions[0]
-        opt_solution_vel = solutions[1]
+        opt_solution_state = solutions[0].type(tensor_dtype)
+        opt_solution_vel = solutions[1].type(tensor_dtype)
 
-        nom_d = None if self.no_obs else solutions[2]
+        nom_d = None if self.no_obs else solutions[2].type(tensor_dtype)
 
         return opt_solution_state, opt_solution_vel, nom_d
 
