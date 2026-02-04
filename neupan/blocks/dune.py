@@ -28,9 +28,15 @@ from typing import Optional
 import sys
 class DUNE(torch.nn.Module):
 
-    def __init__(self, receding: int=10, checkpoint =None, robot=None, dune_max_num: int=100, train_kwargs: dict=dict()) -> None:
+    def __init__(self, receding: int=10, checkpoint =None, robot=None, dune_max_num: int=100, train_kwargs: Optional[dict]=None) -> None:
         super(DUNE, self).__init__()
-  
+
+        if train_kwargs is None:
+            train_kwargs = dict()
+
+        if robot is None:
+            raise ValueError("robot parameter is required and cannot be None")
+
         self.T = receding
         self.max_num = dune_max_num
 
@@ -176,27 +182,27 @@ class DUNE(torch.nn.Module):
         print('Complete Training. The model is saved in ' + self.full_model_name)
 
     def ask_to_train(self):
-        
+
         while True:
             choice = input("Do not find the DUNE model; Do you want to train the model now, input Y or N:").upper()
             if choice == 'Y':
                 return True
             elif choice == 'N':
                 print('Please set the your model path for the DUNE layer.')
-                sys.exit()
+                raise FileNotFoundError("DUNE model checkpoint not found and training was declined by user.")
             else:
                 print("Wrong input, Please input Y or N.")
 
 
     def ask_to_continue(self):
-        
+
         while True:
             choice = input("Do you want to continue the case running, input Y or N:").upper()
             if choice == 'Y':
                 return True
             elif choice == 'N':
                 print('exit the case running.')
-                sys.exit()
+                raise RuntimeError("User declined to continue after training DUNE model.")
             else:
                 print("Wrong input, Please input Y or N.")
 

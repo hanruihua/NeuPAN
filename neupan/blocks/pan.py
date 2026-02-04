@@ -50,11 +50,16 @@ class PAN(torch.nn.Module):
         nrmp_max_num=10,
         dune_checkpoint=None,
         iter_threshold=0.1,
-        adjust_kwargs=dict(),
-        train_kwargs=dict(),
+        adjust_kwargs=None,
+        train_kwargs=None,
         **kwargs,
     ) -> None:
         super(PAN, self).__init__()
+
+        if adjust_kwargs is None:
+            adjust_kwargs = dict()
+        if train_kwargs is None:
+            train_kwargs = dict()
 
         self.robot = robot
         self.T = receding
@@ -168,13 +173,10 @@ class PAN(torch.nn.Module):
             obs_points = downsample_decimation(obs_points, self.dune_max_num)
             point_velocities = downsample_decimation(point_velocities, self.dune_max_num)
 
-        
+
         obs_points_list = []
         point_flow_list = []
         R_list = []
-
-        if point_velocities is None:
-            point_velocities = torch.zeros_like(obs_points)
 
         for i in range(self.T+1):
             receding_obs_points = obs_points + i * (point_velocities * self.dt)
