@@ -26,12 +26,17 @@ device = torch.device("cpu")
 time_print = False
 tensor_dtype= torch.float32
 
-def np_to_tensor(array):
+def np_to_tensor(array, requires_grad=False):
         
     if np.isscalar(array):
-        return torch.tensor(array).type(tensor_dtype).to(device)
+        output_tensor = torch.tensor(array, dtype=tensor_dtype, requires_grad=requires_grad).to(device)
+    else:
+        output_tensor = torch.from_numpy(array).type(tensor_dtype).to(device)
 
-    return torch.from_numpy(array).type(tensor_dtype).to(device)
+    if requires_grad:
+        output_tensor.requires_grad_()
+        
+    return output_tensor
 
 def tensor_to_np(tensor):
 

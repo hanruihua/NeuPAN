@@ -37,7 +37,7 @@ pan:
 
 # adjust parameters
 adjust:
-  q_s: 0.5
+  q_s: 0.5 # or [0.5, 0.6, 0]
   p_u: 1.0
   eta: 10.0
   d_max: 1.0

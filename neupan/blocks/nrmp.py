@@ -18,8 +18,11 @@ You should have received a copy of the GNU General Public License
 along with NeuPAN planner. If not, see <https://www.gnu.org/licenses/>.
 """
 
+from typing import Union
+
 import torch
 import cvxpy as cp
+import numpy as np
 from neupan.robot import robot
 from neupan.configuration import to_device, value_to_tensor, np_to_tensor, tensor_dtype
 from cvxpylayers.torch import CvxpyLayer
@@ -38,7 +41,7 @@ class NRMP(torch.nn.Module):
         eta: float = 10.0,
         d_max: float = 1.0,
         d_min: float = 0.1,
-        q_s: float = 1.0,
+        q_s: Union[float, list, np.ndarray] = 1.0,
         p_u: float = 1.0,
         ro_obs: float = 400,
         bk: float = 0.1,
@@ -59,7 +62,17 @@ class NRMP(torch.nn.Module):
         self.eta = value_to_tensor(eta, True)
         self.d_max = value_to_tensor(d_max, True)
         self.d_min = value_to_tensor(d_min, True)
-        self.q_s = value_to_tensor(q_s, True)
+
+        # Convert q_s to tensor, supporting both scalar and 3-element vector
+        if isinstance(q_s, (list, np.ndarray)):
+            q_s_array = np.array(q_s).flatten()
+            if q_s_array.shape[0] != 3:
+                raise ValueError(f"q_s must be a scalar or a 3-element list/array, got {q_s_array.shape[0]} elements")
+            self.q_s = np_to_tensor(q_s_array, True).reshape(3, 1)            
+        else:
+            # Scalar case: convert to 3x1 tensor with same value for all dimensions
+            self.q_s = value_to_tensor(q_s, True)
+
         self.p_u = value_to_tensor(p_u, True)
 
         self.ro_obs = ro_obs
@@ -142,7 +155,11 @@ class NRMP(torch.nn.Module):
         update the adjust parameters value: q_s, p_u, eta, d_max, d_min
         '''
 
-        self.q_s = value_to_tensor(kwargs.get("q_s", self.q_s), True)
+        if self.q_s.dim() == 0:
+            self.q_s = value_to_tensor(kwargs.get("q_s", self.q_s), True)
+        elif self.q_s.shape == (3, 1):
+            self.q_s = np_to_tensor(kwargs.get("q_s", self.q_s), True).reshape(3, 1)
+
         self.p_u = value_to_tensor(kwargs.get("p_u", self.p_u), True)
         self.eta = value_to_tensor(kwargs.get("eta", self.eta), True)
         self.d_max = value_to_tensor(kwargs.get("d_max", self.d_max), True)
@@ -247,7 +264,12 @@ class NRMP(torch.nn.Module):
         eta, d_max, d_min: the parameters for safety distance
         """
 
-        self.para_q_s = cp.Parameter(name="para_q_s", value=kwargs.get("q_s", 1.0))
+        if self.q_s.dim() == 0:
+            self.para_q_s = cp.Parameter(name="para_q_s", value=kwargs.get("q_s", 1.0))
+        elif self.q_s.shape == (3, 1):
+            self.para_q_s = cp.Parameter(
+                (3, 1), name="para_q_s", value=kwargs.get("q_s", np.ones((3, 1)))
+            )
         self.para_p_u = cp.Parameter(name="para_p_u", value=kwargs.get("p_u", 1.0))
 
         self.para_eta = cp.Parameter(
