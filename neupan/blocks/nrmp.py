@@ -89,7 +89,7 @@ class NRMP(torch.nn.Module):
             self.q_s = np_to_tensor(q_s_array, False).reshape(3, 1)
             self.q_s.requires_grad_(True)
         else:
-            # Scalar case: convert to 3x1 tensor with same value for all dimensions
+            # Scalar case: keep as scalar tensor for backward compatibility
             self.q_s = value_to_tensor(q_s, True)
 
         self.p_u = value_to_tensor(p_u, True)
