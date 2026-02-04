@@ -2,14 +2,15 @@
 
 # NeuPAN: Direct Point Robot Navigation with End-to-End Model-based Learning
 
-<a href="https://ieeexplore.ieee.org/abstract/document/10938329"><img src='https://img.shields.io/badge/PDF-IEEE-brightgreen' alt='PDF'></a>
-<a href="https://arxiv.org/pdf/2403.06828.pdf"><img src='https://img.shields.io/badge/PDF-Arxiv-brightgreen' alt='PDF'></a>
-<a href="https://youtu.be/SdSLWUmZZgQ"><img src='https://img.shields.io/badge/Video-Youtube-blue' alt='youtube'></a>
-<a href="https://www.bilibili.com/video/BV1Zx421y778/?vd_source=cf6ba629063343717a192a5be9fe8985"><img src='https://img.shields.io/badge/Video-Bilibili-blue' alt='youtube'></a>
-<a href="https://hanruihua.github.io/neupan_project/"><img src='https://img.shields.io/badge/Website-NeuPAN-orange' alt='website'></a>
-<a href="https://github.com/hanruihua/neupan_ros"><img src='https://img.shields.io/badge/Wrapper-ROS/ROS2-red' alt='ROS'></a>
-
+<a href="https://github.com/hanruihua/neupan"><img src='https://img.shields.io/github/stars/hanruihua/neupan?style=for-the-badge&color=yellow' alt='GitHub Stars'></a>
+<a href="https://ieeexplore.ieee.org/abstract/document/10938329"><img src='https://img.shields.io/badge/PDF-IEEE-brightgreen?style=for-the-badge' alt='PDF'></a>
+<a href="https://arxiv.org/pdf/2403.06828.pdf"><img src='https://img.shields.io/badge/PDF-Arxiv-brightgreen?style=for-the-badge' alt='PDF'></a>
+<a href="https://youtu.be/SdSLWUmZZgQ"><img src='https://img.shields.io/badge/Video-Youtube-blue?style=for-the-badge' alt='youtube'></a>
+<a href="https://www.bilibili.com/video/BV1Zx421y778/?vd_source=cf6ba629063343717a192a5be9fe8985"><img src='https://img.shields.io/badge/Video-Bilibili-blue?style=for-the-badge' alt='youtube'></a>
+<a href="https://hanruihua.github.io/neupan_project/"><img src='https://img.shields.io/badge/Website-NeuPAN-orange?style=for-the-badge' alt='website'></a>
+<a href="https://github.com/hanruihua/neupan_ros"><img src='https://img.shields.io/badge/Wrapper-ROS/ROS2-red?style=for-the-badge' alt='ROS'></a>
 </div>
+
 
 ## News
 
