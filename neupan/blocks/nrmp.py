@@ -47,6 +47,23 @@ class NRMP(torch.nn.Module):
         bk: float = 0.1,
         **kwargs,
     ) -> None:
+        """
+        Initialize the NRMP layer.
+
+        Args:
+            receding: int, the number of steps in the receding horizon
+            step_time: float, the time step in the MPC framework
+            robot: robot, the robot instance including the robot information
+            nrmp_max_num: int, the maximum number of obstacle points considered in the NRMP layer
+            eta: float, slack gain for L1 regularization
+            d_max: float, the maximum safety distance
+            d_min: float, the minimum safety distance
+            q_s: float or list[float] or np.ndarray, the weight of the state cost.
+                 Can be a scalar (e.g., 1.0) or a 3-element list/array for x, y, theta dimensions (e.g., [1.0, 1.0, 0.5])
+            p_u: float, the weight of the speed cost
+            ro_obs: float, the penalty parameters for collision avoidance
+            bk: float, the associated proximal coefficient for convergence
+        """
         super(NRMP, self).__init__()
 
         self.T = receding
@@ -152,13 +169,29 @@ class NRMP(torch.nn.Module):
     def update_adjust_parameters_value(self, **kwargs):
 
         '''
-        update the adjust parameters value: q_s, p_u, eta, d_max, d_min
+        Update the adjust parameters value: q_s, p_u, eta, d_max, d_min
+
+        Args:
+            q_s: float or list[float], the weight of the state cost.
+                 Can be a scalar or a 3-element list for x, y, theta dimensions.
+            p_u: float, the weight of the speed cost
+            eta: float, slack gain for L1 regularization
+            d_max: float, the maximum safety distance
+            d_min: float, the minimum safety distance
         '''
 
         if self.q_s.dim() == 0:
             self.q_s = value_to_tensor(kwargs.get("q_s", self.q_s), True)
         elif self.q_s.shape == (3, 1):
-            self.q_s = np_to_tensor(kwargs.get("q_s", self.q_s), True).reshape(3, 1)
+
+            temp_q_s = kwargs.get("q_s", self.q_s)
+            
+            if isinstance(temp_q_s, list):
+                np_q_s = np.array(temp_q_s).reshape(3, 1)
+            else:
+                np_q_s = temp_q_s
+
+            self.q_s = np_to_tensor(np_q_s, True).reshape(3, 1)
 
         self.p_u = value_to_tensor(kwargs.get("p_u", self.p_u), True)
         self.eta = value_to_tensor(kwargs.get("eta", self.eta), True)
