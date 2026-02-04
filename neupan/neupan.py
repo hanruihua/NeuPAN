@@ -347,13 +347,15 @@ class neupan(torch.nn.Module):
         update the adjust parameters value: q_s, p_u, eta, d_max, d_min
 
         Args:
-            q_s: float, the weight of the state cost
+            q_s: float or list[float], the weight of the state cost. Can be a scalar or a 3-element list for x, y, theta dimensions.
+                 Note: The q_s type must be aligned with the initial dimension. If initialized as scalar, only scalar updates are allowed;
+                 if initialized as vector, only 3-element vector updates are allowed. Re-initialize the planner to switch types.
             p_u: float, the weight of the speed cost
             eta: float, the weight of the collision avoidance cost
             d_max: float, the maximum distance to the obstacle
             d_min: float, the minimum distance to the obstacle
         """
-        
+
         self.pan.nrmp_layer.update_adjust_parameters_value(**kwargs)
 
     @property

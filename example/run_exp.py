@@ -19,6 +19,8 @@ def main(
     neupan_planner = neupan.init_from_yaml(planner_file)
     
     # neupan_planner.update_adjust_parameters(q_s=0.5, p_u=1.0, eta=10.0, d_max=1.0, d_min=0.1)
+    # neupan_planner.update_adjust_parameters(q_s=[0.5, 0.6, 0.1], p_u=1.0, eta=10.0, d_max=1.0, d_min=0.1) # for vector q_s, q_s yaml file should be modified accordingly 3-element list/array/tensor
+
     # neupan_planner.set_reference_speed(5)
     # neupan_planner.update_initial_path_from_waypoints([np.array([0, 0, 0]).reshape(3, 1), np.array([100, 100, 0]).reshape(3, 1)])
 

@@ -18,8 +18,11 @@ You should have received a copy of the GNU General Public License
 along with NeuPAN planner. If not, see <https://www.gnu.org/licenses/>.
 """
 
+from typing import Union
+
 import torch
 import cvxpy as cp
+import numpy as np
 from neupan.robot import robot
 from neupan.configuration import to_device, value_to_tensor, np_to_tensor, tensor_dtype
 from cvxpylayers.torch import CvxpyLayer
@@ -38,12 +41,29 @@ class NRMP(torch.nn.Module):
         eta: float = 10.0,
         d_max: float = 1.0,
         d_min: float = 0.1,
-        q_s: float = 1.0,
+        q_s: Union[float, list, np.ndarray] = 1.0,
         p_u: float = 1.0,
         ro_obs: float = 400,
         bk: float = 0.1,
         **kwargs,
     ) -> None:
+        """
+        Initialize the NRMP layer.
+
+        Args:
+            receding: int, the number of steps in the receding horizon
+            step_time: float, the time step in the MPC framework
+            robot: robot, the robot instance including the robot information
+            nrmp_max_num: int, the maximum number of obstacle points considered in the NRMP layer
+            eta: float, slack gain for L1 regularization
+            d_max: float, the maximum safety distance
+            d_min: float, the minimum safety distance
+            q_s: float or list[float] or np.ndarray, the weight of the state cost.
+                 Can be a scalar (e.g., 1.0) or a 3-element list/array for x, y, theta dimensions (e.g., [1.0, 1.0, 0.5])
+            p_u: float, the weight of the speed cost
+            ro_obs: float, the penalty parameters for collision avoidance
+            bk: float, the associated proximal coefficient for convergence
+        """
         super(NRMP, self).__init__()
 
         self.T = receding
@@ -59,7 +79,19 @@ class NRMP(torch.nn.Module):
         self.eta = value_to_tensor(eta, True)
         self.d_max = value_to_tensor(d_max, True)
         self.d_min = value_to_tensor(d_min, True)
-        self.q_s = value_to_tensor(q_s, True)
+
+        # Convert q_s to tensor, supporting both scalar and 3-element vector
+        if isinstance(q_s, (list, np.ndarray)):
+            q_s_array = np.array(q_s).flatten()
+            if q_s_array.shape[0] != 3:
+                raise ValueError(f"q_s must be a scalar or a 3-element list/array, got {q_s_array.shape[0]} elements")
+            # Create tensor from numpy array and explicitly enable gradients
+            self.q_s = np_to_tensor(q_s_array, False).reshape(3, 1)
+            self.q_s.requires_grad_(True)
+        else:
+            # Scalar case: keep as scalar tensor for backward compatibility
+            self.q_s = value_to_tensor(q_s, True)
+
         self.p_u = value_to_tensor(p_u, True)
 
         self.ro_obs = ro_obs
@@ -139,10 +171,40 @@ class NRMP(torch.nn.Module):
     def update_adjust_parameters_value(self, **kwargs):
 
         '''
-        update the adjust parameters value: q_s, p_u, eta, d_max, d_min
+        Update the adjust parameters value: q_s, p_u, eta, d_max, d_min
+
+        Args:
+            q_s: float or list[float] or np.ndarray, the weight of the state cost.
+                 Can be a scalar or a 3-element list/array for x, y, theta dimensions.
+                 Note: The q_s type must be aligned with the initial dimension. If initialized as scalar,
+                 only scalar updates are allowed; if initialized as vector, only 3-element vector updates
+                 are allowed. Re-initialize the planner to switch types.
+            p_u: float, the weight of the speed cost
+            eta: float, slack gain for L1 regularization
+            d_max: float, the maximum safety distance
+            d_min: float, the minimum safety distance
         '''
 
-        self.q_s = value_to_tensor(kwargs.get("q_s", self.q_s), True)
+        q_s_value = kwargs.get("q_s", self.q_s)
+
+        if self.q_s.dim() == 0:
+            if isinstance(q_s_value, (list, np.ndarray)):
+                value = q_s_value[0]
+                print(f"q_s should be a scalar when initialized as scalar, got list/array with {len(q_s_value)} elements. Using the first element: {value}")
+
+            self.q_s = value_to_tensor(value, True)
+
+        elif self.q_s.shape == (3, 1):
+            if isinstance(q_s_value, (list, np.ndarray)):
+                q_s_array = np.array(q_s_value).flatten()
+                if q_s_array.shape[0] != 3:
+                    raise ValueError(f"q_s must be a scalar or a 3-element list/array, got {q_s_array.shape[0]} elements")
+                np_q_s = q_s_array.reshape(3, 1)
+            else:
+                raise ValueError(f"q_s must be a 3d list, np.ndarray, or torch.Tensor, got {type(q_s_value)}")
+
+            self.q_s = np_to_tensor(np_q_s, True).reshape(3, 1)
+
         self.p_u = value_to_tensor(kwargs.get("p_u", self.p_u), True)
         self.eta = value_to_tensor(kwargs.get("eta", self.eta), True)
         self.d_max = value_to_tensor(kwargs.get("d_max", self.d_max), True)
@@ -247,7 +309,12 @@ class NRMP(torch.nn.Module):
         eta, d_max, d_min: the parameters for safety distance
         """
 
-        self.para_q_s = cp.Parameter(name="para_q_s", value=kwargs.get("q_s", 1.0))
+        if self.q_s.dim() == 0:
+            self.para_q_s = cp.Parameter(name="para_q_s", value=kwargs.get("q_s", 1.0))
+        elif self.q_s.shape == (3, 1):
+            self.para_q_s = cp.Parameter(
+                (3, 1), name="para_q_s", value=kwargs.get("q_s", np.ones((3, 1)))
+            )
         self.para_p_u = cp.Parameter(name="para_p_u", value=kwargs.get("p_u", 1.0))
 
         self.para_eta = cp.Parameter(

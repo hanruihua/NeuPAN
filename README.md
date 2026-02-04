@@ -156,7 +156,7 @@ Since there are quite a lot of parameters setting for the Neupan planner, we pro
 
 | Parameter Name | Type / Default Value | Description                                                                                                                                                                                  |
 | -------------- | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `q_s`          | `float` / 1.0        | The weight for the state cost. Large value encourages the robot to follow the initial path closely.                                                                                          |
+| `q_s`          | `float` or `list[float]` / 1.0        | The weight for the state cost. Can be a scalar value (e.g., `1.0`) or a 3-element list for x, y, theta dimensions (e.g., `[1.0, 1.0, 0.5]`). Large value encourages the robot to follow the initial path closely. Using a vector allows different weights for position (x, y) and orientation (theta).                                                                                          |
 | `p_u`          | `float` / 1.0        | The weight for the speed cost. Large value encourages the robot to follow the reference speed.                                                                                               |
 | `eta`          | `float` / 10.0       | Slack gain for L1 regularization.                                                                                                                                                            |
 | `d_max`        | `float` / 1.0        | The maximum safety distance.                                                                                                                                                                 |
@@ -164,6 +164,25 @@ Since there are quite a lot of parameters setting for the Neupan planner, we pro
 | `ro_obs`       | `float` / 400        | The penalty parameters for collision avoidance. Smaller value may require more iterations to converge.                                                                                       |
 | `bk`           | `float` / 0.1        | The associated proximal coefficient for convergence.                                                                                                                                         |
 | `solver`       | `str` / "ECOS"       | The optimization solver method for the NRMP layer. See [cvxpylayers](https://github.com/cvxgrp/cvxpylayers) and [cvxpy](https://www.cvxpy.org/tutorial/solvers/index.html) for more details. |
+
+> [!TIP]
+> **Using Vector `q_s` for Different Weights on x, y, and theta:**
+>
+> You can adjust the `q_s` parameter at runtime using `update_adjust_parameters()`:
+>
+> ```python
+> # Scalar q_s (same weight for x, y, theta)
+> neupan_planner.update_adjust_parameters(q_s=0.5, p_u=1.0, eta=10.0, d_max=1.0, d_min=0.1)
+>
+> # Vector q_s (different weights for x, y, theta)
+> neupan_planner.update_adjust_parameters(q_s=[0.5, 0.5, 0.1], p_u=1.0, eta=10.0, d_max=1.0, d_min=0.1)
+> # This example uses lower weight (0.1) for theta, allowing more orientation flexibility
+> ```
+
+> [!NOTE]
+> **`q_s` Dimension Alignment:**
+>
+> The `q_s` type (scalar or vector) must be consistent between initialization and runtime updates. If `q_s` is initialized as a scalar in the YAML config, you can only update it with a scalar value. If initialized as a 3-element vector, you can only update it with a 3-element vector. To switch between scalar and vector `q_s`, you need to re-initialize the planner with the desired type in the YAML config.
 
 ## DUNE Model Training for Your Own Robot with a Specific Convex Geometry
 

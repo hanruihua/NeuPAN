@@ -140,23 +140,32 @@ class robot:
 
 
     def C0_cost(self, para_p_u, para_q_s):
-        
+
         '''
         reference state cost and control vector cost
 
         para_p_u: weight of speed cost
-        para_q_s: weight of state cost
+        para_q_s: weight of state cost (scalar or 3-element vector for x, y, theta)
         '''
 
         diff_u = para_p_u * self.indep_u[0, :] - self.para_gamma_b
-        diff_s = para_q_s * self.indep_s - self.para_gamma_a
+
+        # Support both scalar and vector para_q_s
+        # If para_q_s is a vector (3,1), use element-wise multiplication
+        # If para_q_s is a scalar, use scalar multiplication
+        if para_q_s.shape == (3, 1):
+            # Element-wise multiplication: para_q_s (3,) broadcasts with indep_s (3, T+1)
+            diff_s = cp.multiply(para_q_s, self.indep_s) - self.para_gamma_a
+        else:
+            # Scalar multiplication (backward compatibility)
+            diff_s = para_q_s * self.indep_s - self.para_gamma_a
 
         if self.kinematics == 'omni':
             diff_s_cost = cp.sum_squares(diff_s[0:2])
         else:
             diff_s_cost = cp.sum_squares(diff_s)
 
-        C0_cost = diff_s_cost + cp.sum_squares(diff_u) 
+        C0_cost = diff_s_cost + cp.sum_squares(diff_u)
 
         return C0_cost
 
