@@ -9,19 +9,22 @@
 <a href="https://www.bilibili.com/video/BV1Zx421y778/?vd_source=cf6ba629063343717a192a5be9fe8985"><img src='https://img.shields.io/badge/Video-Bilibili-blue' alt='youtube'></a>
 <a href="https://hanruihua.github.io/neupan_project/"><img src='https://img.shields.io/badge/Website-NeuPAN-orange' alt='website'></a>
 <a href="https://github.com/hanruihua/neupan_ros"><img src='https://img.shields.io/badge/Wrapper-ROS/ROS2-red' alt='ROS'></a>
+
 </div>
+
+## Table of Contents
 
 - [News](#news)
 - [Introduction](#introduction)
-- [Why using NeuPAN](#why-using-neupan)
 - [Demonstrations](#demonstrations)
-- [Prerequisite](#prerequisite)
-- [Installation](#installation)
-- [Run Examples on IR-SIM](#run-examples-on-ir-sim)
-- [YAML Parameters](#yaml-parameters)
-- [DUNE Model Training](#dune-model-training-for-your-own-robot-with-a-specific-convex-geometry)
-- [ROS Wrapper](#ros-wrapper)
-- [Notes for Real World Deployment](#notes-for-real-world-deployment)
+- [Why NeuPAN](#why-neupan)
+- [Quick Start](#quick-start)
+- [Examples](#examples)
+- [Configuration](#configuration)
+- [Advanced Usage](#advanced-usage)
+  - [DUNE Model Training](#dune-model-training)
+  - [ROS Integration](#ros-integration)
+  - [Real World Deployment](#real-world-deployment)
 - [Current Limitations](#current-limitations)
 - [FAQ](#faq)
 - [License](#license)
@@ -29,27 +32,17 @@
 
 ## News
 
-- **2025-12-25**: 🎉 Our NeuPAN planner is integrated into the [odin-nav-stack](https://github.com/ManifoldTechLtd/Odin-Nav-Stack) project, feel free to try it out! 
-- **2025-04-24**: 🎯 We provide the python 3.8 compatible NeuPAN version available on [py38](https://github.com/hanruihua/NeuPAN/tree/py38) branch. 
-- **2025-03-26**: 🎯 Available on [IEEE Transactions on Robotics](https://ieeexplore.ieee.org/abstract/document/10938329). 
-- **2025-03-25**: 🔓 Code released! 
-- **2025-02-04**: 🎉 Our paper is accepted by **T-RO 2025!**  
+- **2025-12-25**: Our NeuPAN planner is integrated into the [odin-nav-stack](https://github.com/ManifoldTechLtd/Odin-Nav-Stack) project, feel free to try it out!
+- **2025-04-24**: We provide the python 3.8 compatible NeuPAN version available on [py38](https://github.com/hanruihua/NeuPAN/tree/py38) branch.
+- **2025-03-26**: Available on [IEEE Transactions on Robotics](https://ieeexplore.ieee.org/abstract/document/10938329).
+- **2025-03-25**: Code released!
+- **2025-02-04**: Our paper is accepted by **T-RO 2025!**
 
 ## Introduction
 
 **NeuPAN** (Neural Proximal Alternating-minimization Network) is an **end-to-end**, **real-time**, **map-free**, and **easy-to-deploy** MPC based robot motion planner. By integrating learning-based and optimization-based techniques, **NeuPAN directly maps obstacle points data to control actions in real-time** by solving an end-to-end mathematical model with numerous point-level collision avoidance constraints. This eliminates middle modules design to avoid error propagation and achieves high accuracy, allowing the robot to navigate in cluttered and unknown environments efficiently and safely.
 
-## Why using NeuPAN
-
-| Aspect | Traditional Modular Planners (TEB, DWA) | End-to-End Learning-based Planners (RL, IL) | **NeuPAN** |
-| ------ | --------------------------------------- | -------------------------------- | ---------- |
-| **Architecture** | Modular pipeline with object detection, mapping, and planning | End-to-end policy network | ✅ **End-to-end** framework without middle modules, avoiding error propagation |
-| **Environment Handling** | Limited by map representation and object models | Depends on training environments | ✅ **Directly processes obstacle points**, handles cluttered/unstructured environments with arbitrary shaped objects |
-| **Training Data** | N/A (rule-based) | Requires huge amount of real/simulated data | ✅ **Minimal training data**: simply random points within a certain range |
-| **Training Time** | N/A (rule-based) | Hours to days on GPU clusters | ✅ **Fast training**: 1-2 hours on CPU for new robot geometry |
-| **Retraining** | N/A | Often requires retraining for new environments | ✅ **Train once** for robot geometry, apply to various environments without retraining |
-| **Safety Guarantee** | Relies on accurate perception | No formal safety guarantee | ✅ **Mathematical optimization** with collision avoidance constraints for reliable deployment |
-| **Deployment** | Complex integration required | Black-box policy, hard to debug | ✅ **Easy to deploy** and flexible to integrate with global planners (A*, VLN) |
+![](./img/Architecture.png)
 
 ## Demonstrations
 
@@ -63,27 +56,37 @@ https://github.com/user-attachments/assets/71eef683-a996-488f-b51b-89e149d0cc6e
 
 https://github.com/user-attachments/assets/fb3f2992-da00-4730-872f-8f3bb8b29163
 
+## Why NeuPAN
 
-![](./img/Architecture.png)
+| Aspect | Traditional Modular Planners (TEB, DWA) | End-to-End Learning-based Planners (RL, IL) | **NeuPAN** |
+| ------ | --------------------------------------- | -------------------------------- | ---------- |
+| **Architecture** | Modular pipeline with object detection, mapping, and planning | End-to-end policy network | **End-to-end** framework without middle modules, avoiding error propagation |
+| **Environment Handling** | Limited by map representation and object models | Depends on training environments | **Directly processes obstacle points**, handles cluttered/unstructured environments with arbitrary shaped objects |
+| **Training Data** | N/A (rule-based) | Requires huge amount of real/simulated data | **Minimal training data**: simply random points within a certain range |
+| **Training Time** | N/A (rule-based) | Hours to days on GPU clusters | **Fast training**: 1-2 hours on CPU for new robot geometry |
+| **Retraining** | N/A | Often requires retraining for new environments | **Train once** for robot geometry, apply to various environments without retraining |
+| **Safety Guarantee** | Relies on accurate perception | No formal safety guarantee | **Mathematical optimization** with collision avoidance constraints for reliable deployment |
+| **Deployment** | Complex integration required | Black-box policy, hard to debug | **Easy to deploy** and flexible to integrate with global planners (A*, VLN) |
 
-## Prerequisite
-- Python >= 3.10
+## Quick Start
 
-## Installation
+**Requirements:** Python >= 3.10
 
-```
+```bash
+# Install NeuPAN
 git clone https://github.com/hanruihua/NeuPAN
 cd NeuPAN
-pip install -e .  
-```
+pip install -e .
 
-## Run Examples on IR-SIM
-
-Please Install [IR-SIM](https://github.com/hanruihua/ir-sim) first by:
-
-```
+# Install IR-SIM for running examples
 pip install ir-sim
+
+# Run your first example
+cd example
+python run_exp.py -e corridor -d diff
 ```
+
+## Examples
 
 You can run examples in the [example](https://github.com/hanruihua/NeuPAN/tree/main/example) folder to see the navigation performance of `diff` (differential), `acker` (ackermann) and `omni` (Omnidirectional) robot powered by NeuPAN in IR-SIM. Scenarios include:
 
@@ -97,7 +100,7 @@ You can run examples in the [example](https://github.com/hanruihua/NeuPAN/tree/m
 - `polygon_robot` (polygon robot)
 - `reverse` (car reverse parking)
 - [dune training](https://github.com/hanruihua/NeuPAN/tree/main/example/dune_train)
-- [LON training](https://github.com/hanruihua/NeuPAN/tree/main/example/LON) 
+- [LON training](https://github.com/hanruihua/NeuPAN/tree/main/example/LON)
 
 Some demonstrations run by `run_exp.py` are shown below:
 
@@ -113,9 +116,9 @@ Some demonstrations run by `run_exp.py` are shown below:
 > [!NOTE]
 > *Since the optimization solver cvxpy is not supported on GPU, we recommend using the CPU device to run the NeuPAN algorithm. Thus, the hardware platform with more powerful CPU (e.g. Intel i7) is recommended to achieve higher frequency and better performance. However, you can still use the GPU device to train the DUNE model for acceleration.*
 
-## YAML Parameters
+## Configuration
 
-Since there are quite a lot of parameters setting for the Neupan planner, we provide a YAML file to initialize the parameters in NeuPAN, which is listed below:
+Since there are quite a lot of parameters setting for the Neupan planner, we provide a YAML file to initialize the parameters in NeuPAN.
 
 | Parameter Name        | Type / Default Value | Description                                                                          |
 | --------------------- | -------------------- | ------------------------------------------------------------------------------------ |
@@ -131,7 +134,8 @@ Since there are quite a lot of parameters setting for the Neupan planner, we pro
 | `adjust`              | `dict` / dict()      | The parameters for the adjust weights. See 'adjust' section.                         |
 | `train`               | `dict` / dict()      | The parameters for the DUNE training. See 'train' section.                           |
 
-**`robot` section**:
+<details>
+<summary><b>robot</b> section parameters</summary>
 
 | Parameter Name | Type / Default Value                       | Description                                                                                                    |
 | -------------- | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------- |
@@ -144,7 +148,10 @@ Since there are quite a lot of parameters setting for the Neupan planner, we pro
 | `width`        | `float` / None                             | The width of the robot.  If the `vertices` is not given, this parameter is required for rectangle robot simply |
 | `name`         | `str` / kinematics + "_robot" + '_default' | The name of the robot. Used for saving the DUNEmodel.                                                          |
 
-**`ipath` section**:
+</details>
+
+<details>
+<summary><b>ipath</b> section parameters</summary>
 
 | Parameter Name           | Type / Default Value                       | Description                                                                                                  |
 | ------------------------ | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
@@ -158,7 +165,10 @@ Since there are quite a lot of parameters setting for the Neupan planner, we pro
 | `ind_range`              | `int` / 10                                 | The index range of the waypoints, used for finding the next reference point on the path.                     |
 | `arrive_index_threshold` | `int` / 1                                  | The threshold of the index to judge whether the robot arrives at the target.                                 |
 
-**`pan` section**:
+</details>
+
+<details>
+<summary><b>pan</b> section parameters</summary>
 
 | Parameter Name    | Type / Default Value | Description                                                                                          |
 | ----------------- | -------------------- | ---------------------------------------------------------------------------------------------------- |
@@ -168,7 +178,10 @@ Since there are quite a lot of parameters setting for the Neupan planner, we pro
 | `dune_checkpoint` | `str` / None         | The checkpoint model path of the DUNE model.                                                         |
 | `iter_threshold`  | `float` / 0.1        | The threshold to judge whether the iteration converges.                                              |
 
-**`adjust` section**:
+</details>
+
+<details>
+<summary><b>adjust</b> section parameters</summary>
 
 *You may adjust the parameters in the `adjust` section to get better performance for your specific workspace.*
 
@@ -202,13 +215,10 @@ Since there are quite a lot of parameters setting for the Neupan planner, we pro
 >
 > The `q_s` type (scalar or vector) must be consistent between initialization and runtime updates. If `q_s` is initialized as a scalar in the YAML config, you can only update it with a scalar value. If initialized as a 3-element vector, you can only update it with a 3-element vector. To switch between scalar and vector `q_s`, you need to re-initialize the planner with the desired type in the YAML config.
 
-## DUNE Model Training for Your Own Robot with a Specific Convex Geometry
+</details>
 
-To train a DUNE model for your own robot with a specific convex geometry, you can refer to the [example/dune_train](https://github.com/hanruihua/NeuPAN/tree/main/example/dune_train) folder. Specifically, the convex geometry is defined in the `robot` section by the `vertices` (or `length` and `width` for rectangle) when the robot is in the initial state (coordinate origin). The training parameters can be adjusted in the `train` section. Generally, the training time is approximately 1-2 hours for a new robot geometry.
-
-You can use the `train` section in YAML file to set the training parameters for the DUNE model. The parameters are shown below:
-
-**`train`** section:
+<details>
+<summary><b>train</b> section parameters</summary>
 
 | Parameter Name | Type / Default Value               | Description                                                               |
 | -------------- | ---------------------------------- | ------------------------------------------------------------------------- |
@@ -225,20 +235,24 @@ You can use the `train` section in YAML file to set the training parameters for 
 | `decay_freq`   | `int` / 1500                       | The frequency of the learning rate decay.                                 |
 | `save_loss`    | `bool` / False                     | Whether to save the loss to file.                                         |
 
+</details>
+
+## Advanced Usage
+
+### DUNE Model Training
+
+To train a DUNE model for your own robot with a specific convex geometry, you can refer to the [example/dune_train](https://github.com/hanruihua/NeuPAN/tree/main/example/dune_train) folder. Specifically, the convex geometry is defined in the `robot` section by the `vertices` (or `length` and `width` for rectangle) when the robot is in the initial state (coordinate origin). The training parameters can be adjusted in the `train` section.
+
 > [!NOTE]
 > The DUNE model only needs to be trained once for a new robot geometry. This trained model can be used in various environments without retraining.
 
-## ROS Wrapper
+### ROS Integration
 
 We provide a ROS wrapper for NeuPAN. You can refer to the [neupan_ros](https://github.com/hanruihua/neupan_ros) repo to see the details. The Gazebo demonstrations are shown below:
 
-
-
 https://github.com/user-attachments/assets/1d5eb028-0d22-4741-8899-40a3ea7caab4
 
-
-
-## Notes for Real World Deployment
+### Real World Deployment
 
 - You can easily deploy the NeuPAN algorithm on a real robot platform using [neupan_ros](https://github.com/hanruihua/neupan_ros). Currently, NeuPAN supports the kinematics of differential drive robots, Ackermann robots and omni-directional robots (see the `robot` section in the YAML file). For robots with other kinematics, you can modify the constraints in the NRMP layer to suit your needs.
 
@@ -255,7 +269,6 @@ https://github.com/user-attachments/assets/1d5eb028-0d22-4741-8899-40a3ea7caab4
   - Dubins' paths for forward Ackermann vehicles, or
   - Reeds-Shepp paths for forward and backward Ackermann vehicles.
 
-
 ## Current Limitations
 
 - **CPU-bound optimization**: The NRMP layer uses cvxpy which does not support GPU acceleration, so inference speed depends on CPU performance.
@@ -263,27 +276,42 @@ https://github.com/user-attachments/assets/1d5eb028-0d22-4741-8899-40a3ea7caab4
 - **Convex robot geometry**: The DUNE model assumes convex robot shapes. Non-convex robots need to be approximated by convex hulls.
 - **Parameter tuning**: Performance in specific environments may require tuning the `adjust` parameters for optimal results.
 
-## FAQ:
+## FAQ
 
-### Can I use 3D lidar or other sensors such as camera to run this algorithm?
+<details>
+<summary><b>Can I use 3D lidar or other sensors such as camera to run this algorithm?</b></summary>
 
-Yes. NeuPAN algorithm is designed to read the 2D points as obstacles to avoid. You can use any sensors to get these points and feed them to NeuPAN. For 3D lidar, you can convert the 3D points to 2D space by projecting them onto the ground plane (e.g., [pointcloud_to_laserscan](http://wiki.ros.org/pointcloud_to_laserscan)); For camera, you can extract the 2D points from the camera image. 
+Yes. NeuPAN algorithm is designed to read the 2D points as obstacles to avoid. You can use any sensors to get these points and feed them to NeuPAN. For 3D lidar, you can convert the 3D points to 2D space by projecting them onto the ground plane (e.g., [pointcloud_to_laserscan](http://wiki.ros.org/pointcloud_to_laserscan)); For camera, you can extract the 2D points from the camera image.
 
-### How to run NeuPAN on my own robot with a specific kinematics?
+</details>
+
+<details>
+<summary><b>How to run NeuPAN on my own robot with a specific kinematics?</b></summary>
 
 Currently, NeuPAN only supports the kinematics of differential drive robots (`diff`), Ackermann robots (`acker`) and omni-directional robots (`omni`). If you want to use other kinematics, you can modify the [kinematic constraints](https://github.com/hanruihua/NeuPAN/blob/main/neupan/robot/robot.py#L188) in the NRMP layer to suit your needs. We also welcome contributions to support more kinematics by PR or issues. You can test the performance in the ir-sim environments.
 
-### When should I retrain the DUNE model? 
+</details>
 
-You only need to retrain the DUNE model when you change the robot size or shape. Except that, changing the sensors or the scenarios will not influence the performance of the DUNE model. 
+<details>
+<summary><b>When should I retrain the DUNE model?</b></summary>
 
-### What is the most important parameter to train DUNE?
+You only need to retrain the DUNE model when you change the robot size or shape. Except that, changing the sensors or the scenarios will not influence the performance of the DUNE model.
+
+</details>
+
+<details>
+<summary><b>What is the most important parameter to train DUNE?</b></summary>
 
 Before training the DUNE model, you should confirm the robot geometry (vertices or length and width for rectangle) in the `robot` section is correct. Additionally, `data_range` in train section is also important, which is decided by the maximum range of the obstacle points you want to consider.
 
-### How can I integrate NeuPAN with other global planners such as A*?
+</details>
+
+<details>
+<summary><b>How can I integrate NeuPAN with other global planners such as A*?</b></summary>
 
 You can update the initial path from other global planners in real time by the function [set_initial_path](https://github.com/hanruihua/NeuPAN/blob/main/neupan/neupan.py#L286C9-L286C25). For neupan_ros, you can use the topic `/initial_path` and set the `refresh_initial_path` to be True to read the initial path from other global planners.
+
+</details>
 
 *If there are any technical issues, please feel free to open an issue or contact me (hanrh@connect.hku.hk). Contributions to make this project better are also welcome.*
 
@@ -298,14 +326,11 @@ If you find this code or paper is helpful, please kindly star :star: this reposi
 ```bibtex
 @ARTICLE{10938329,
   author={Han, Ruihua and Wang, Shuai and Wang, Shuaijun and Zhang, Zeqing and Chen, Jianjun and Lin, Shijie and Li, Chengyang and Xu, Chengzhong and Eldar, Yonina C. and Hao, Qi and Pan, Jia},
-  journal={IEEE Transactions on Robotics}, 
-  title={NeuPAN: Direct Point Robot Navigation With End-to-End Model-Based Learning}, 
+  journal={IEEE Transactions on Robotics},
+  title={NeuPAN: Direct Point Robot Navigation With End-to-End Model-Based Learning},
   year={2025},
   volume={41},
   number={},
   pages={2804-2824},
   doi={10.1109/TRO.2025.3554252}}
 ```
-
-
-
